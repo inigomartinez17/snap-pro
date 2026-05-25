@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
-  // CORS para que no haya bloqueos
+  // Cabeceras de seguridad permisivas
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -11,6 +11,10 @@ export default async function handler(req, res) {
   try {
     const { url } = req.body;
     
+    if (!url) {
+      return res.status(400).json({ success: false, error: "No se envió ninguna URL." });
+    }
+
     const options = {
       method: 'POST',
       headers: {
@@ -22,30 +26,19 @@ export default async function handler(req, res) {
     };
 
     const response = await fetch('https://social-download-all-in-one.p.rapidapi.com/v1/social/autolink', options);
-    const data = await response.json();
-
-    // EL BUSCADOR DE ENLACES 1000% DEFINITIVO
-    let finalUrl = null;
     
-    if (data.links && data.links.length > 0) {
-        finalUrl = data.links[0].link || data.links[0].url;
-    } else if (data.medias && data.medias.length > 0) {
-        finalUrl = data.medias[0].url || data.medias[0].link;
-    } else if (data.url) {
-        finalUrl = data.url;
-    } else if (data.video) {
-        finalUrl = data.video;
-    } else if (data.hd) {
-        finalUrl = data.hd;
+    // Obtenemos la respuesta cruda
+    const data = await response.json();
+    
+    // Si la API dice que hay un error de su lado, lo devolvemos
+    if (data.message || (data.code && data.code !== 200 && data.code !== 0)) {
+        return res.status(400).json({ success: false, error: data.message || "Error interno de la API.", rawData: data });
     }
 
-    if (finalUrl) {
-        res.status(200).json({ success: true, downloadUrl: finalUrl, title: data.title || "SnapPro_Video_Premium" });
-    } else {
-        res.status(400).json({ success: false, error: "Formato súper privado o no soportado." });
-    }
+    // Devolvemos toda la información cruda al frontend para que el frontend decida
+    res.status(200).json({ success: true, rawData: data });
     
   } catch (error) {
-    res.status(500).json({ success: false, error: "El servidor de origen está saturado." });
+    res.status(500).json({ success: false, error: "El servidor Node falló: " + error.message });
   }
 }
