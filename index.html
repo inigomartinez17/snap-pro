@@ -3,103 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Descarga videos de redes sociales en máxima calidad al instante.">
-    <title>SnapPro | Ultimate Downloader</title>
-    
+    <title>SnapPro Ultra | 4K Video Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        body { font-family: 'Inter', sans-serif; background: #020617; color: white; min-height: 100vh; }
-        .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        :root { --primary: #3b82f6; --accent: #10b981; }
+        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
+        .gradient-border { border: 2px solid transparent; background: linear-gradient(#020617, #020617) padding-box, linear-gradient(90deg, #3b82f6, #8b5cf6) border-box; }
         .hide { display: none !important; }
-        @keyframes pulse-emerald { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-        .btn-glow { animation: pulse-emerald 2s infinite; }
+        .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
     </style>
 </head>
-<body class="flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center py-12 px-4">
 
-    <div class="max-w-xl w-full text-center relative z-10">
-        
-        <div class="mb-10">
-            <h1 class="text-5xl md:text-6xl font-black mb-2 tracking-tighter italic">
-                SNAP<span class="text-blue-500">PRO</span>
-            </h1>
-            <p class="text-slate-400 font-medium">Bypass Activo: YT, IG, TT, FB</p>
+    <header class="mb-12 text-center">
+        <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 border border-blue-500/20">
+            v3.0 Ultra Premium
         </div>
+        <h1 class="text-6xl font-black tracking-tighter bg-gradient-to-r from-white to-slate-500 bg-clip-text text-transparent">
+            SNAP<span class="text-blue-500">PRO</span>
+        </h1>
+        <p class="text-slate-400 mt-2">Twitch, YouTube, TikTok & More</p>
+    </header>
 
-        <div class="glass p-8 rounded-[2rem] shadow-2xl relative min-h-[300px] flex flex-col justify-center">
+    <main class="max-w-2xl w-full">
+        <div class="glass rounded-[2.5rem] p-2 md:p-8 shadow-3xl">
             
-            <div id="step-input" class="space-y-4">
-                <input type="url" id="videoUrl" placeholder="Pega el enlace de la red social..." 
-                    class="w-full bg-black/40 border border-slate-700/50 p-5 rounded-2xl outline-none focus:border-blue-500 transition-all text-center text-lg placeholder:text-slate-600">
-                <button onclick="startProcess()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 py-5 rounded-2xl font-black text-xl transition-all active:scale-95 shadow-xl shadow-blue-900/20">
-                    EXTRAER VÍDEO
-                </button>
-            </div>
-
-            <div id="step-loading" class="hide py-6 flex flex-col items-center">
-                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 mb-4"></div>
-                <p class="text-xl font-bold text-white mb-2">Canalizando a través del Proxy...</p>
-                <p class="text-sm text-slate-400">Evitando bloqueos de servidor origen (Error 403)</p>
-            </div>
-
-            <div id="step-result" class="hide space-y-5">
-                <div class="bg-emerald-500/20 text-emerald-400 p-2 rounded-xl inline-block px-4 font-bold text-sm uppercase tracking-widest border border-emerald-500/30">
-                    Bypass Exitoso
+            <div id="ui-search" class="p-4 space-y-4">
+                <div class="relative">
+                    <input type="url" id="videoUrl" placeholder="Pega el enlace aquí..." 
+                        class="w-full bg-slate-900/50 border border-slate-700 p-6 rounded-3xl outline-none focus:ring-4 focus:ring-blue-500/20 transition-all text-lg pr-16">
+                    <button onclick="analyze()" class="absolute right-3 top-3 bottom-3 bg-blue-600 hover:bg-blue-500 px-6 rounded-2xl transition-all active:scale-95">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
-                <h2 id="videoTitle" class="text-lg font-bold text-white truncate px-4">Video Listo</h2>
-                
-                <a id="downloadBtn" href="#" class="block w-full bg-emerald-600 hover:bg-emerald-500 py-5 rounded-2xl font-black text-xl btn-glow transition-all text-white shadow-lg shadow-emerald-900/40">
-                   <i class="fas fa-download mr-2"></i> DESCARGAR AHORA
-                </a>
-                
-                <button onclick="location.reload()" class="text-slate-400 text-sm hover:text-white transition-colors mt-4">
-                    <i class="fas fa-rotate-right mr-1"></i> Limpiar y procesar otro
-                </button>
+                <div class="flex justify-center gap-6 text-slate-500 text-sm">
+                    <span><i class="fab fa-youtube text-red-500"></i> YT</span>
+                    <span><i class="fab fa-tiktok"></i> TikTok</span>
+                    <span><i class="fab fa-twitch text-purple-500"></i> Twitch</span>
+                    <span><i class="fab fa-instagram text-pink-500"></i> IG</span>
+                </div>
             </div>
 
+            <div id="ui-loading" class="hide p-8 space-y-4">
+                <div class="h-48 w-full rounded-3xl shimmer"></div>
+                <div class="h-6 w-3/4 rounded shimmer mx-auto"></div>
+                <div class="h-12 w-full rounded-2xl shimmer"></div>
+            </div>
+
+            <div id="ui-result" class="hide p-4 md:p-6 space-y-6">
+                <div class="relative group rounded-3xl overflow-hidden border border-slate-700">
+                    <img id="prev-img" src="" class="w-full h-48 object-cover opacity-50 group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="bg-black/60 p-4 rounded-full backdrop-blur-md">
+                            <i class="fas fa-play text-white text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-4 left-4 right-4 text-left">
+                        <h2 id="prev-title" class="font-bold text-lg line-clamp-1">Título del Vídeo</h2>
+                        <span id="prev-source" class="text-xs font-black uppercase text-blue-400">Plataforma</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <button id="main-download" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 py-5 rounded-2xl font-black text-xl shadow-lg shadow-blue-900/40 hover:brightness-110 transition-all active:scale-[0.98]">
+                        <i class="fas fa-download mr-2"></i> DESCARGAR 4K
+                    </button>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="location.reload()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-4 rounded-2xl font-bold text-sm">
+                            <i class="fas fa-redo mr-2"></i> OTRO
+                        </button>
+                        <a id="direct-link" target="_blank" class="flex-1 bg-slate-800/50 border border-slate-700 hover:bg-slate-700 py-4 rounded-2xl font-bold text-sm text-center">
+                            <i class="fas fa-link mr-2"></i> LINK DIRECTO
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-4">
+                    <div class="bg-emerald-500 p-2 rounded-lg text-black"><i class="fas fa-crown"></i></div>
+                    <div class="text-left text-xs">
+                        <p class="font-bold text-emerald-400">¿Quieres descargas ilimitadas?</p>
+                        <p class="text-slate-400">Consigue SnapPro Premium por solo 1.99€</p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        async function startProcess() {
-            const urlInput = document.getElementById('videoUrl').value.trim();
-            if(!urlInput) return alert("Pega un enlace válido.");
+        async function analyze() {
+            const url = document.getElementById('videoUrl').value.trim();
+            if(!url) return;
 
-            document.getElementById('step-input').classList.add('hide');
-            document.getElementById('step-loading').classList.remove('hide');
+            document.getElementById('ui-search').classList.add('hide');
+            document.getElementById('ui-loading').classList.remove('hide');
 
             try {
-                // 1. Llama al buscador (download.js)
                 const res = await fetch('/api/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: urlInput })
+                    body: JSON.stringify({ url: url })
                 });
-                
                 const data = await res.json();
 
-                // Damos 2 segundos visuales de "hackeo"
-                setTimeout(() => {
-                    document.getElementById('step-loading').classList.add('hide');
-                    
-                    if(data.success && data.downloadUrl) {
-                        document.getElementById('step-result').classList.remove('hide');
-                        document.getElementById('videoTitle').innerText = data.title;
+                if(data.success) {
+                    setTimeout(() => {
+                        document.getElementById('ui-loading').classList.add('hide');
+                        document.getElementById('ui-result').classList.remove('hide');
                         
-                        // 2. Conecta el botón verde al proxy (proxy.js) con la URL cruda encriptada
-                        const encodedUrl = encodeURIComponent(data.downloadUrl);
-                        document.getElementById('downloadBtn').href = `/api/proxy?url=${encodedUrl}`;
-                    } else {
-                        alert("❌ Error: " + (data.error || "No se pudo extraer el enlace."));
-                        location.reload();
-                    }
-                }, 2000);
+                        // Llenar datos de previsualización
+                        document.getElementById('prev-img').src = data.thumbnail || 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop';
+                        document.getElementById('prev-title').innerText = data.title;
+                        document.getElementById('prev-source').innerText = data.source;
 
-            } catch (err) {
-                alert("❌ Fallo crítico de conexión de red.");
+                        // Configurar descarga Pro
+                        const dlBtn = document.getElementById('main-download');
+                        const directBtn = document.getElementById('direct-link');
+                        const videoLink = data.links[0].url;
+
+                        directBtn.href = videoLink;
+                        
+                        // LÓGICA ULTRA: Intentamos descargar mediante Fetch para saltar 403
+                        dlBtn.onclick = async () => {
+                            dlBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
+                            try {
+                                const response = await fetch(videoLink);
+                                const blob = await response.blob();
+                                const urlBlob = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = urlBlob;
+                                a.download = `SnapPro_${Date.now()}.mp4`;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(urlBlob);
+                                dlBtn.innerHTML = '<i class="fas fa-check"></i> ¡COMPLETADO!';
+                            } catch (e) {
+                                // Si falla el blob (por CORS), abrimos el proxy como última opción
+                                window.open(`/api/proxy?url=${encodeURIComponent(videoLink)}`, '_blank');
+                                dlBtn.innerHTML = '<i class="fas fa-download"></i> DESCARGAR 4K';
+                            }
+                        };
+                    }, 1500);
+                } else {
+                    alert("Error: Plataforma no soportada o enlace privado.");
+                    location.reload();
+                }
+            } catch (e) {
+                alert("Error de conexión con el servidor.");
                 location.reload();
             }
         }
