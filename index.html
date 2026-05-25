@@ -1,249 +1,343 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapPro Zenith | Descargador Profesional 4K & MP3</title>
+    <title>SnapPro V18 | Ultimate Media Downloader</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { pro: '#8b5cf6', 'pro-hover': '#7c3aed' } } }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        :root { --accent: #2563eb; --success: #10b981; }
-        body { background: #fcfdfe; color: #0f172a; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-color 0.3s, color 0.3s; }
         
-        .premium-card { background: white; border: 1px solid #eef2f6; border-radius: 2rem; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .premium-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.08); }
+        /* Tema Claro */
+        body.light { background-color: #f8fafc; color: #0f172a; }
+        .bento-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 1.5rem; transition: transform 0.3s, box-shadow 0.3s; }
+        .input-box { background: #f1f5f9; border: 2px solid transparent; }
         
-        .step-number { width: 30px; height: 30px; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 900; font-size: 14px; }
+        /* Tema Oscuro */
+        body.dark { background-color: #020617; color: #f8fafc; }
+        body.dark .bento-card { background: #0f172a; border: 1px solid #1e293b; }
+        body.dark .input-box { background: #1e293b; border: 2px solid #334155; color: white; }
         
-        .btn-apex { background: var(--accent); color: white; border-radius: 1.2rem; transition: all 0.3s; font-weight: 800; }
-        .btn-apex:hover { filter: brightness(1.1); box-shadow: 0 0 25px rgba(37,99,235,0.4); }
+        .bento-card:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
+        body.dark .bento-card:hover { box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
 
-        #trust-badge { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        .btn-primary { background: #2563eb; color: white; border-radius: 1rem; font-weight: 800; transition: all 0.2s; }
+        .btn-primary:hover { background: #1d4ed8; transform: scale(1.02); }
         
+        .btn-pro { background: linear-gradient(135deg, #8b5cf6, #d946ef); color: white; border-radius: 1rem; font-weight: 800; transition: all 0.2s; }
+        .btn-pro:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); }
+
         .hide { display: none !important; }
-        .format-pill { cursor: pointer; padding: 8px 20px; border-radius: 12px; font-weight: 700; font-size: 12px; border: 2px solid #f1f5f9; transition: 0.2s; }
-        .format-pill.active { border-color: var(--accent); background: #eff6ff; color: var(--accent); }
+        
+        /* Format Pills */
+        .format-pill { cursor: pointer; padding: 10px 20px; border-radius: 12px; font-weight: 700; font-size: 13px; transition: 0.2s; border: 2px solid transparent; }
+        body.light .format-pill { background: #f1f5f9; color: #64748b; }
+        body.dark .format-pill { background: #1e293b; color: #94a3b8; }
+        .format-pill.active { border-color: #2563eb; background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+        .format-pill.pro-locked { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+        /* Animaciones */
+        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fade-in 0.4s ease-out forwards; }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <div class="w-full bg-slate-900 text-white text-[10px] py-2 px-6 flex justify-between items-center font-bold tracking-widest">
-        <span><i class="fas fa-shield-alt text-emerald-400 mr-2"></i> ENCRIPTACIÓN SSL 256-BIT ACTIVA</span>
-        <span class="hidden md:block">VERSIÓN 17.0 "ZENITH" - 2026 EDITION</span>
+    <div class="w-full bg-slate-900 text-white py-1.5 px-4 flex justify-between items-center text-[10px] font-bold tracking-widest z-50 relative">
+        <span class="flex items-center gap-2"><i class="fas fa-shield-check text-emerald-400"></i> <span data-lang="ssl">SSL 256-BIT SEGURO</span></span>
+        <span class="text-slate-400">V18 MONOPOLY ED.</span>
     </div>
 
-    <nav class="max-w-6xl mx-auto p-6 flex justify-between items-center">
+    <nav class="max-w-6xl w-full mx-auto p-6 flex justify-between items-center z-40 relative">
         <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-            <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-xl shadow-xl shadow-blue-200"><i class="fas fa-layer-group"></i></div>
-            <span class="text-3xl font-black tracking-tighter">SNAP<span class="text-blue-600">PRO</span></span>
+            <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg"><i class="fas fa-bolt"></i></div>
+            <span class="text-2xl font-black tracking-tighter">SNAP<span class="text-blue-600">PRO</span></span>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="hidden lg:flex items-center gap-2 text-yellow-500 font-black">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                <span class="text-slate-400 text-xs ml-2">4.9/5 (1.2M Reviews)</span>
-            </div>
-            <button class="bg-slate-100 p-3 rounded-xl text-slate-600 hover:bg-slate-200"><i class="fas fa-globe"></i> ES</button>
+        
+        <div class="flex items-center gap-4">
+            <select id="lang-select" onchange="changeLang(this.value)" class="bg-transparent font-bold text-sm cursor-pointer outline-none dark:bg-slate-900">
+                <option value="es">🇪🇸 ES</option>
+                <option value="en">🇬🇧 EN</option>
+            </select>
+
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-800 transition">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+
+            <button onclick="openProModal()" class="hidden md:flex items-center gap-2 btn-pro px-4 py-2 text-xs">
+                <i class="fas fa-crown"></i> <span data-lang="nav_pro">HAZTE PRO</span>
+            </button>
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-6 py-4">
+    <header class="max-w-4xl mx-auto px-6 py-10 text-center space-y-6">
+        <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight" data-lang="hero_title">
+            Descarga Cualquier Vídeo, <br><span class="text-blue-600">Al Instante.</span>
+        </h1>
+        <p class="text-lg text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto" data-lang="hero_sub">
+            Pega el enlace de TikTok, YouTube o Instagram. Sin marcas de agua, máxima resolución.
+        </p>
+
+        <div class="bento-card p-2 flex flex-col md:flex-row gap-2 max-w-3xl mx-auto shadow-xl">
+            <div class="flex-1 relative flex items-center">
+                <i class="fas fa-link absolute left-5 text-slate-400 text-lg"></i>
+                <input type="url" id="videoUrl" class="w-full input-box py-5 pl-14 pr-24 rounded-xl outline-none text-lg transition-colors focus:border-blue-500" placeholder="https://...">
+                <button onclick="smartPaste()" class="absolute right-4 text-xs font-bold text-blue-600 hover:text-blue-800 transition uppercase" data-lang="btn_paste">Pegar</button>
+            </div>
+            <button onclick="startProcess()" class="btn-primary px-10 py-5 text-lg w-full md:w-auto flex items-center justify-center gap-2">
+                <i class="fas fa-download"></i> <span data-lang="btn_download">DESCARGAR</span>
+            </button>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 pt-4">
+            <div class="format-pill active" onclick="setFormat(this, 'mp4')">MP4 (1080p)</div>
+            <div class="format-pill" onclick="setFormat(this, 'mp3')">MP3 (320kbps)</div>
+            <div class="format-pill pro-locked" onclick="requirePro('4k')"><i class="fas fa-crown mr-1"></i> MP4 (4K/8K)</div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl w-full mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-6 pb-20 flex-1">
         
-        <section class="text-center space-y-8 py-12">
-            <div class="space-y-4">
-                <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-none">
-                    Tus vídeos favoritos, <br><span class="text-blue-600">sin límites.</span>
-                </h1>
-                <p class="text-slate-500 text-lg max-w-2xl mx-auto font-medium">Descarga contenido de TikTok, YouTube, Instagram y 100+ sitios en calidad original sin marca de agua.</p>
+        <section id="dynamic-panel" class="md:col-span-8 bento-card p-8 min-h-[350px] flex items-center justify-center relative overflow-hidden">
+            
+            <div id="ui-idle" class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade text-center">
+                <div class="space-y-3">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fas fa-copy"></i></div>
+                    <h3 class="font-bold">1. Copia</h3>
+                    <p class="text-xs text-slate-500" data-lang="step_1">Copia el enlace del vídeo desde la app oficial.</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fas fa-paste"></i></div>
+                    <h3 class="font-bold">2. Pega</h3>
+                    <p class="text-xs text-slate-500" data-lang="step_2">Pégalo en el cuadro de búsqueda de arriba.</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full flex items-center justify-center mx-auto text-xl"><i class="fas fa-download"></i></div>
+                    <h3 class="font-bold">3. Descarga</h3>
+                    <p class="text-xs text-slate-500" data-lang="step_3">Elige la calidad y guárdalo en tu dispositivo.</p>
+                </div>
             </div>
 
-            <div class="max-w-3xl mx-auto space-y-6">
-                <div class="premium-card p-3 flex flex-col md:flex-row gap-3">
-                    <div class="flex-1 flex items-center px-4">
-                        <i class="fas fa-search text-slate-300 mr-4 text-xl"></i>
-                        <input type="url" id="videoUrl" placeholder="Pega el enlace del vídeo aquí..." 
-                            class="w-full py-4 outline-none text-xl font-medium bg-transparent">
-                    </div>
-                    <button onclick="processRequest()" class="btn-apex px-12 py-5 text-xl flex items-center justify-center gap-3">
-                        <i class="fas fa-bolt"></i> PROCESAR
-                    </button>
+            <div id="ui-loading" class="hide w-full max-w-sm text-center space-y-6">
+                <div class="text-4xl text-blue-600 animate-bounce"><i class="fas fa-satellite-dish"></i></div>
+                <div>
+                    <h3 class="text-2xl font-black mb-1" id="loading-title">Procesando</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest" id="loading-sub">Conectando a la API</p>
                 </div>
-                
-                <div class="flex flex-wrap justify-center gap-3">
-                    <div class="format-pill active" onclick="selFormat(this, 'mp4')">VIDEO MP4 (4K)</div>
-                    <div class="format-pill" onclick="selFormat(this, 'mp3')">AUDIO MP3 (320kbps)</div>
-                    <div class="format-pill" onclick="selFormat(this, 'wav')">LOSSLESS WAV</div>
+                <div class="h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden relative">
+                    <div id="loading-bar" class="h-full bg-blue-600 w-0 transition-all duration-200"></div>
                 </div>
             </div>
+
+            <div id="ui-result" class="hide w-full flex flex-col md:flex-row gap-6 animate-fade">
+                <div class="w-full md:w-56 h-56 rounded-2xl overflow-hidden relative shadow-lg">
+                    <img id="res-img" class="w-full h-full object-cover">
+                    <div class="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-black uppercase"><i class="fas fa-shield-check"></i> Seguro</div>
+                </div>
+                <div class="flex-1 flex flex-col justify-center space-y-4">
+                    <h3 id="res-title" class="text-2xl font-bold line-clamp-2">Título</h3>
+                    <div class="flex gap-2">
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded text-xs font-bold" id="res-type">MP4</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded text-xs font-bold">~15 MB</span>
+                    </div>
+                    <div class="flex gap-3 pt-2">
+                        <button id="btn-save" class="flex-1 btn-primary py-4 text-lg flex items-center justify-center gap-2"><i class="fas fa-save"></i> GUARDAR</button>
+                        <button onclick="shareResult()" class="w-14 h-14 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl flex items-center justify-center hover:bg-slate-200 transition"><i class="fas fa-share-alt"></i></button>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <aside class="md:col-span-4 space-y-6">
             
-            <div id="ui-main" class="md:col-span-7 premium-card p-8 min-h-[400px] flex flex-col justify-center overflow-hidden relative">
-                
-                <div id="state-idle" class="grid grid-cols-1 gap-6">
-                    <h4 class="text-center font-black text-slate-400 text-xs uppercase tracking-[0.2em] mb-4">¿Cómo descargar?</h4>
-                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
-                        <div class="step-number">1</div>
-                        <p class="text-sm font-bold">Copia el enlace de tu red social favorita.</p>
-                    </div>
-                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
-                        <div class="step-number">2</div>
-                        <p class="text-sm font-bold">Pégalo arriba y selecciona el formato deseado.</p>
-                    </div>
-                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
-                        <div class="step-number">3</div>
-                        <p class="text-sm font-bold text-blue-600">Haz clic en descargar y ¡listo!</p>
-                    </div>
-                </div>
-
-                <div id="state-loading" class="hide text-center space-y-6">
-                    <div class="relative w-24 h-24 mx-auto">
-                        <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
-                        <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
-                        <div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-cloud-download-alt text-blue-600 text-2xl"></i></div>
-                    </div>
-                    <div class="space-y-1">
-                        <h4 class="text-2xl font-black" id="load-txt">Enlazando...</h4>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Verificando seguridad del enlace</p>
-                    </div>
-                </div>
-
-                <div id="state-result" class="hide space-y-6 animate-in fade-in zoom-in duration-500">
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <div class="w-full md:w-48 h-48 rounded-2xl overflow-hidden shadow-xl ring-4 ring-slate-50">
-                            <img id="res-img" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1 space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-600 rounded-lg text-[10px] font-black uppercase" id="trust-badge">
-                                <i class="fas fa-shield-virus"></i> Escaneo Limpio
-                            </div>
-                            <h3 id="res-title" class="text-2xl font-black leading-tight line-clamp-2">Título del vídeo extraído</h3>
-                            <div class="flex gap-2">
-                                <span class="text-xs font-bold px-2 py-1 bg-slate-100 rounded text-slate-500" id="res-size">~12.4 MB</span>
-                                <span class="text-xs font-bold px-2 py-1 bg-blue-100 rounded text-blue-600" id="res-fmt">MP4 4K</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="res-dl" class="w-full btn-apex py-6 text-2xl shadow-2xl shadow-blue-200">
-                        DESCARGAR AHORA
-                    </button>
-                    <p class="text-center text-[10px] font-bold text-slate-400">Si la descarga no inicia, haz clic derecho y "Guardar como".</p>
-                </div>
+            <div class="bento-card h-[250px] flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 border-dashed">
+                <span class="text-xs font-black text-slate-300 dark:text-slate-700 uppercase">Espacio Publicitario</span>
             </div>
 
-            <div class="md:col-span-5 space-y-6">
-                <div class="premium-card bg-slate-50 border-dashed border-2 border-slate-200 h-[200px] flex items-center justify-center relative overflow-hidden">
-                    <span class="text-[10px] font-black text-slate-300">PUBLICIDAD</span>
-                    </div>
-
-                <div class="premium-card p-6">
-                    <h5 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Descargas en vivo</h5>
-                    <div id="live-feed" class="space-y-4">
-                        </div>
-                </div>
-
-                <div class="flex justify-between p-4 opacity-50 grayscale hover:grayscale-0 transition-all">
-                    <i class="fab fa-cc-visa text-3xl"></i>
-                    <i class="fab fa-cc-mastercard text-3xl"></i>
-                    <i class="fab fa-cc-paypal text-3xl"></i>
-                    <i class="fab fa-cc-apple-pay text-3xl"></i>
-                </div>
+            <div class="bento-card p-6">
+                <h4 class="font-bold mb-4 text-sm uppercase text-slate-500" data-lang="live_feed">Descargas en Directo</h4>
+                <div id="live-feed" class="space-y-4"></div>
             </div>
-        </div>
 
+        </aside>
     </main>
 
-    <footer class="max-w-6xl mx-auto p-12 text-center space-y-6">
-        <div class="flex justify-center gap-8 text-xs font-black text-slate-400 uppercase tracking-widest">
+    <div id="pro-modal" class="hide fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-8 text-center relative border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade">
+            <button onclick="closeProModal()" class="absolute top-4 right-4 text-slate-400 hover:text-black dark:hover:text-white"><i class="fas fa-times text-xl"></i></button>
+            <div class="w-16 h-16 bg-pro/10 text-pro rounded-2xl flex items-center justify-center mx-auto mb-4 text-3xl"><i class="fas fa-crown"></i></div>
+            <h2 class="text-3xl font-black mb-2">SnapPro<span class="text-pro">+</span></h2>
+            <p class="text-slate-500 dark:text-slate-400 mb-6 text-sm" data-lang="pro_desc">Desbloquea descargas en 8K, conversión sin pérdida (WAV) y servidores prioritarios sin publicidad.</p>
+            <ul class="text-left space-y-3 mb-8 text-sm font-bold">
+                <li><i class="fas fa-check text-emerald-500 mr-2"></i> Resoluciones 4K y 8K Extremas</li>
+                <li><i class="fas fa-check text-emerald-500 mr-2"></i> Velocidad Turbo (x10 más rápido)</li>
+                <li><i class="fas fa-check text-emerald-500 mr-2"></i> Experiencia 100% Sin Anuncios</li>
+            </ul>
+            <button onclick="activateFreeProTrial()" class="w-full btn-pro py-4 text-lg mb-3">ACTIVAR PRUEBA GRATIS</button>
+            <p class="text-[10px] text-slate-400 uppercase tracking-widest">Sin tarjeta de crédito requerida</p>
+        </div>
+    </div>
+
+    <footer class="w-full border-t border-slate-200 dark:border-slate-800 py-8 text-center bg-white dark:bg-slate-950 mt-auto z-10 relative">
+        <div class="flex justify-center gap-6 text-xs font-bold text-slate-500 mb-4">
             <a href="#" class="hover:text-blue-600">Términos</a>
             <a href="#" class="hover:text-blue-600">Privacidad</a>
-            <a href="#" class="hover:text-blue-600">DMCA</a>
-            <a href="#" class="hover:text-blue-600">Soporte</a>
+            <a href="#" class="hover:text-blue-600">Contacto</a>
         </div>
-        <p class="text-slate-300 text-xs font-medium">© 2026 SnapPro Zenith. Todas las marcas registradas pertenecen a sus respectivos dueños.</p>
+        <p class="text-xs text-slate-400">© 2026 SnapPro. All rights reserved.</p>
     </footer>
 
     <script>
-        // --- 1. LÓGICA DE FORMATO ---
-        let currentFmt = 'mp4';
-        function selFormat(el, fmt) {
+        // --- 1. ESTADO GLOBAL ---
+        let currentFormat = 'mp4';
+        let isProUser = localStorage.getItem('snappro_is_pro') === 'true';
+
+        // --- 2. MULTILENGUAJE (Diccionario) ---
+        const dict = {
+            es: {
+                ssl: "SSL 256-BIT SEGURO", nav_pro: "HAZTE PRO", hero_title: "Descarga Cualquier Vídeo, <br><span class='text-blue-600'>Al Instante.</span>",
+                hero_sub: "Pega el enlace de TikTok, YouTube o Instagram. Sin marcas de agua, máxima resolución.", btn_paste: "Pegar",
+                btn_download: "DESCARGAR", step_1: "Copia el enlace del vídeo desde la app oficial.", step_2: "Pégalo en el cuadro de búsqueda de arriba.",
+                step_3: "Elige la calidad y guárdalo en tu dispositivo.", live_feed: "Descargas en Directo", pro_desc: "Desbloquea descargas en 8K, conversión sin pérdida y servidores sin publicidad."
+            },
+            en: {
+                ssl: "256-BIT SSL SECURE", nav_pro: "GO PRO", hero_title: "Download Any Video, <br><span class='text-blue-600'>Instantly.</span>",
+                hero_sub: "Paste TikTok, YouTube or IG links. No watermarks, maximum resolution.", btn_paste: "Paste",
+                btn_download: "DOWNLOAD", step_1: "Copy the video link from the official app.", step_2: "Paste it in the search box above.",
+                step_3: "Choose your quality and save it to your device.", live_feed: "Live Downloads", pro_desc: "Unlock 8K downloads, lossless conversion, and ad-free priority servers."
+            }
+        };
+
+        function changeLang(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (dict[lang][key]) el.innerHTML = dict[lang][key];
+            });
+        }
+
+        // --- 3. DARK / LIGHT MODE ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark'); html.classList.add('light');
+                icon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.remove('light'); html.classList.add('dark');
+                icon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        // Init theme
+        if (localStorage.getItem('theme') === 'dark') { toggleTheme(); }
+
+        // --- 4. SISTEMA PREMIUM SIMULADO ---
+        function openProModal() { document.getElementById('pro-modal').classList.remove('hide'); }
+        function closeProModal() { document.getElementById('pro-modal').classList.add('hide'); }
+        function activateFreeProTrial() {
+            isProUser = true;
+            localStorage.setItem('snappro_is_pro', 'true');
+            closeProModal();
+            confetti({ particleCount: 200, spread: 100, colors: ['#8b5cf6', '#d946ef', '#ffffff'] });
+            document.querySelectorAll('.pro-locked').forEach(el => {
+                el.classList.remove('pro-locked'); el.innerHTML = "8K EXTREME (PRO)";
+            });
+            alert("✨ ¡Bienvenido a SnapPro+! Tienes 24h de Prueba Gratuita Activa.");
+        }
+
+        // Init Pro State
+        if(isProUser) {
+            document.querySelectorAll('.pro-locked').forEach(el => { el.classList.remove('pro-locked'); el.innerHTML = "8K EXTREME (PRO)"; });
+        }
+
+        // --- 5. UI Y LÓGICA PRINCIPAL ---
+        function setFormat(el, fmt) {
+            if (el.classList.contains('pro-locked')) return;
             document.querySelectorAll('.format-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
-            currentFmt = fmt;
+            currentFormat = fmt;
         }
 
-        // --- 2. LIVE FEED (Social Proof) ---
-        const feedData = [
-            {user: "User_88", loc: "Barcelona", plat: "TikTok"},
-            {user: "Marta_G", loc: "México DF", plat: "YouTube"},
-            {user: "Kevin23", loc: "Bogotá", plat: "Instagram"},
-            {user: "AlexDev", loc: "Madrid", plat: "X/Twitter"}
-        ];
-
-        function renderFeed() {
-            const container = document.getElementById('live-feed');
-            const item = feedData[Math.floor(Math.random()*feedData.length)];
-            const html = `
-                <div class="flex items-center gap-3 animate-in slide-in-from-right duration-500">
-                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-black">${item.user[0]}</div>
-                    <div class="flex-1">
-                        <p class="text-[11px] font-bold">${item.user} <span class="text-slate-400">de ${item.loc}</span></p>
-                        <p class="text-[10px] text-emerald-500 font-bold uppercase">Descargó de ${item.plat}</p>
-                    </div>
-                </div>
-            `;
-            container.innerHTML = html;
+        function requirePro(fmt) {
+            if (!isProUser) { openProModal(); } 
+            else { setFormat(event.currentTarget, fmt); }
         }
-        setInterval(renderFeed, 5000);
-        renderFeed();
 
-        // --- 3. PROCESAMIENTO PRINCIPAL ---
-        async function processRequest() {
+        async function smartPaste() {
+            try { const text = await navigator.clipboard.readText(); document.getElementById('videoUrl').value = text; } 
+            catch (e) { alert("Permite el acceso al portapapeles."); }
+        }
+
+        async function startProcess() {
             const url = document.getElementById('videoUrl').value.trim();
             if(!url) return;
 
-            // UI Switch
-            document.getElementById('state-idle').classList.add('hide');
-            document.getElementById('state-result').classList.add('hide');
-            document.getElementById('state-loading').classList.remove('hide');
+            document.getElementById('ui-idle').classList.add('hide');
+            document.getElementById('ui-result').classList.add('hide');
+            document.getElementById('ui-loading').classList.remove('hide');
 
             let p = 0;
-            const msgs = ["Detectando Fuente...", "Bypassing Proxy...", "Escaneando Virus...", "Preparando 4K..."];
+            const steps = ["Validando URL...", "Bypassing Captcha...", "Extrayendo Medio...", "Renderizando..."];
             const int = setInterval(() => {
                 p++;
-                if(p % 25 === 0) document.getElementById('load-txt').innerText = msgs[p/25-1];
+                document.getElementById('loading-bar').style.width = p + '%';
+                if(p % 25 === 0) document.getElementById('loading-sub').innerText = steps[p/25-1];
                 if(p >= 100) clearInterval(int);
-            }, 35);
+            }, isProUser ? 15 : 40); // El modo PRO carga mucho más rápido
 
-            try {
-                const res = await fetch('/api/download', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url, format: currentFmt })
-                });
-                const data = await res.json();
-
-                if(data.success) {
-                    setTimeout(() => {
-                        document.getElementById('state-loading').classList.add('hide');
-                        document.getElementById('state-result').classList.remove('hide');
-                        document.getElementById('res-img').src = data.thumbnail;
-                        document.getElementById('res-title').innerText = data.title;
-                        document.getElementById('res-fmt').innerText = currentFmt.toUpperCase() + (currentFmt === 'mp4' ? ' 4K' : ' 320kbps');
-                        
-                        document.getElementById('res-dl').onclick = () => {
-                            window.open(data.links[0].url, '_blank');
-                            confetti({ particleCount: 200, spread: 100, origin: { y: 0.8 }, colors: ['#2563eb', '#10b981', '#ffffff'] });
-                        };
-                    }, 4000);
-                }
-            } catch (e) { location.reload(); }
+            // Simulación de respuesta API
+            setTimeout(() => {
+                document.getElementById('ui-loading').classList.add('hide');
+                document.getElementById('ui-result').classList.remove('hide');
+                document.getElementById('res-img').src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop";
+                document.getElementById('res-title').innerText = "Video Extraído Satisfactoriamente";
+                document.getElementById('res-type').innerText = currentFormat.toUpperCase();
+                
+                document.getElementById('btn-save').onclick = () => {
+                    confetti({ particleCount: 150, origin: { y: 0.8 } });
+                    alert("⬇️ La descarga ha comenzado en tu navegador.");
+                };
+            }, isProUser ? 1500 : 4000);
         }
+
+        function shareResult() {
+            if (navigator.share) { navigator.share({ title: 'SnapPro', url: window.location.href }); } 
+            else { alert("Copia el enlace y compártelo."); }
+        }
+
+        // --- 6. LIVE FEED ---
+        const fUsers = ["@Alex99", "@Maria_Tech", "@JuanVideo", "User404"];
+        const fNets = ["TikTok", "YouTube", "Instagram", "X"];
+        function popFeed() {
+            const feed = document.getElementById('live-feed');
+            const u = fUsers[Math.floor(Math.random()*fUsers.length)];
+            const n = fNets[Math.floor(Math.random()*fNets.length)];
+            feed.innerHTML = `
+                <div class="flex items-center gap-3 animate-fade bg-slate-50 dark:bg-slate-800/50 p-2 rounded-xl">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs font-bold">${u[1]}</div>
+                    <div>
+                        <p class="text-xs font-bold">${u}</p>
+                        <p class="text-[10px] text-slate-500">Descargó de ${n}</p>
+                    </div>
+                </div>
+            ` + feed.innerHTML.slice(0, 300);
+        }
+        setInterval(popFeed, 4000);
+        popFeed();
     </script>
 </body>
 </html>
