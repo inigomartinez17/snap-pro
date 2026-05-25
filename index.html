@@ -1,277 +1,248 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapPro Quantum | Advanced Media Protocol</title>
+    <title>SnapPro Zenith | Descargador Profesional 4K & MP3</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        :root { --quantum: #ccff00; --bg: #000000; --surface: #0a0a0a; --surface-border: #1a1a1a; }
-        body { 
-            background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; 
-            margin: 0; overflow-x: hidden; cursor: none; /* Cursor nativo oculto */
-        }
-        .mono { font-family: 'Space Mono', monospace; }
+        :root { --accent: #2563eb; --success: #10b981; }
+        body { background: #fcfdfe; color: #0f172a; font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
+        
+        .premium-card { background: white; border: 1px solid #eef2f6; border-radius: 2rem; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .premium-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.08); }
+        
+        .step-number { width: 30px; height: 30px; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 900; font-size: 14px; }
+        
+        .btn-apex { background: var(--accent); color: white; border-radius: 1.2rem; transition: all 0.3s; font-weight: 800; }
+        .btn-apex:hover { filter: brightness(1.1); box-shadow: 0 0 25px rgba(37,99,235,0.4); }
 
-        /* Cuadrícula de Fondo Cuántica */
-        .quantum-grid {
-            position: fixed; inset: 0; z-index: -2;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            perspective: 1000px;
-        }
-
-        /* Cursor Personalizado */
-        #custom-cursor {
-            position: fixed; top: 0; left: 0; width: 20px; height: 20px;
-            border: 2px solid var(--quantum); border-radius: 50%;
-            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            mix-blend-mode: difference;
-        }
-        #cursor-trail {
-            position: fixed; top: 0; left: 0; width: 6px; height: 6px;
-            background: var(--quantum); border-radius: 50%; pointer-events: none;
-            z-index: 9998; transform: translate(-50%, -50%);
-            transition: top 0.1s ease-out, left 0.1s ease-out;
-        }
-
-        /* Bento 3D Card */
-        .q-card {
-            background: var(--surface); border: 1px solid var(--surface-border);
-            border-radius: 24px; padding: 2rem; position: relative;
-            transform-style: preserve-3d; transition: border-color 0.3s;
-        }
-        .q-card:hover { border-color: rgba(204, 255, 0, 0.3); }
-
-        .btn-quantum {
-            background: var(--quantum); color: #000; font-weight: 900;
-            padding: 1rem 2.5rem; border-radius: 12px; text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .btn-quantum:hover { box-shadow: 0 0 30px rgba(204, 255, 0, 0.4); transform: translateY(-2px); }
-
+        #trust-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        
         .hide { display: none !important; }
-
-        /* CRT Text Effect */
-        .crt-text { text-shadow: 0 0 5px rgba(204, 255, 0, 0.5); }
+        .format-pill { cursor: pointer; padding: 8px 20px; border-radius: 12px; font-weight: 700; font-size: 12px; border: 2px solid #f1f5f9; transition: 0.2s; }
+        .format-pill.active { border-color: var(--accent); background: #eff6ff; color: var(--accent); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+<body>
 
-    <div id="custom-cursor"></div>
-    <div id="cursor-trail"></div>
-    <div class="quantum-grid"></div>
+    <div class="w-full bg-slate-900 text-white text-[10px] py-2 px-6 flex justify-between items-center font-bold tracking-widest">
+        <span><i class="fas fa-shield-alt text-emerald-400 mr-2"></i> ENCRIPTACIÓN SSL 256-BIT ACTIVA</span>
+        <span class="hidden md:block">VERSIÓN 17.0 "ZENITH" - 2026 EDITION</span>
+    </div>
 
-    <nav class="w-full max-w-6xl flex justify-between items-center mb-10 z-10">
-        <div class="flex items-center gap-3">
-            <div class="w-4 h-4 bg-[#ccff00] animate-pulse"></div>
-            <h1 class="text-xl font-black tracking-tighter">SNAP<span class="text-[#ccff00]">PRO</span>_13</h1>
+    <nav class="max-w-6xl mx-auto p-6 flex justify-between items-center">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+            <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-xl shadow-xl shadow-blue-200"><i class="fas fa-layer-group"></i></div>
+            <span class="text-3xl font-black tracking-tighter">SNAP<span class="text-blue-600">PRO</span></span>
         </div>
-        <div class="mono text-xs text-zinc-500 flex gap-6">
-            <span class="hidden md:inline">PROTOCOL: SECURE</span>
-            <span id="sys-time">00:00:00</span>
+        <div class="flex items-center gap-6">
+            <div class="hidden lg:flex items-center gap-2 text-yellow-500 font-black">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                <span class="text-slate-400 text-xs ml-2">4.9/5 (1.2M Reviews)</span>
+            </div>
+            <button class="bg-slate-100 p-3 rounded-xl text-slate-600 hover:bg-slate-200"><i class="fas fa-globe"></i> ES</button>
         </div>
     </nav>
 
-    <main class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 z-10">
+    <main class="max-w-6xl mx-auto px-6 py-4">
         
-        <div class="md:col-span-2 q-card tilt-element flex flex-col justify-center min-h-[300px]">
-            <h2 class="text-4xl md:text-5xl font-black mb-6 leading-tight">
-                BYPASS <br><span class="text-[#ccff00]">RESTRICTIONS.</span>
-            </h2>
-            <div class="relative flex items-center group">
-                <div class="absolute left-6 text-zinc-500"><i class="fas fa-link"></i></div>
-                <input type="url" id="videoUrl" placeholder="Inyectar URL del objetivo..." 
-                    class="w-full bg-zinc-950 border border-zinc-800 py-6 pl-14 pr-40 rounded-xl outline-none text-lg font-light text-[#ccff00] placeholder:text-zinc-700 transition-colors focus:border-[#ccff00]/50 mono hover-target">
-                <button onclick="executeQuantum()" class="absolute right-2 btn-quantum hover-target text-sm">
-                    EXECUTE
-                </button>
+        <section class="text-center space-y-8 py-12">
+            <div class="space-y-4">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-none">
+                    Tus vídeos favoritos, <br><span class="text-blue-600">sin límites.</span>
+                </h1>
+                <p class="text-slate-500 text-lg max-w-2xl mx-auto font-medium">Descarga contenido de TikTok, YouTube, Instagram y 100+ sitios en calidad original sin marca de agua.</p>
             </div>
-        </div>
 
-        <div class="md:col-span-1 q-card tilt-element flex flex-col relative overflow-hidden min-h-[300px]">
-            <div class="flex justify-between items-center mb-4 z-10">
-                <span class="mono text-[10px] text-zinc-500 tracking-widest uppercase">Bandwidth Monitor</span>
-                <span class="w-2 h-2 rounded-full bg-[#ccff00] shadow-[0_0_10px_#ccff00]"></span>
-            </div>
-            <div class="flex-1 w-full relative z-10">
-                <canvas id="wave-canvas" class="w-full h-full absolute inset-0"></canvas>
-            </div>
-            <div class="mt-4 z-10">
-                <p class="text-3xl font-black text-[#ccff00] mono">4.2 <span class="text-sm text-zinc-500">GB/s</span></p>
-            </div>
-        </div>
-
-        <div id="ui-terminal" class="hide md:col-span-3 q-card tilt-element border-[#ccff00]/30 shadow-[0_0_50px_rgba(204,255,0,0.05)]">
-            <div class="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-4">
-                <i class="fas fa-terminal text-[#ccff00]"></i>
-                <span class="mono text-xs text-white">ROOT@SNAP-PRO:~# PROCESSING_PAYLOAD</span>
-            </div>
-            <div id="terminal-logs" class="mono text-xs text-zinc-400 space-y-2 h-32 overflow-hidden flex flex-col justify-end"></div>
-            <div class="mt-6 h-1 w-full bg-zinc-900 overflow-hidden">
-                <div id="q-progress" class="h-full bg-[#ccff00] w-0 transition-all duration-75"></div>
-            </div>
-        </div>
-
-        <div id="ui-result" class="hide md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="q-card tilt-element p-2 overflow-hidden">
-                <div class="relative w-full h-full min-h-[200px] rounded-xl overflow-hidden border border-zinc-800">
-                    <img id="prev-img" class="absolute inset-0 w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="premium-card p-3 flex flex-col md:flex-row gap-3">
+                    <div class="flex-1 flex items-center px-4">
+                        <i class="fas fa-search text-slate-300 mr-4 text-xl"></i>
+                        <input type="url" id="videoUrl" placeholder="Pega el enlace del vídeo aquí..." 
+                            class="w-full py-4 outline-none text-xl font-medium bg-transparent">
+                    </div>
+                    <button onclick="processRequest()" class="btn-apex px-12 py-5 text-xl flex items-center justify-center gap-3">
+                        <i class="fas fa-bolt"></i> PROCESAR
+                    </button>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-3">
+                    <div class="format-pill active" onclick="selFormat(this, 'mp4')">VIDEO MP4 (4K)</div>
+                    <div class="format-pill" onclick="selFormat(this, 'mp3')">AUDIO MP3 (320kbps)</div>
+                    <div class="format-pill" onclick="selFormat(this, 'wav')">LOSSLESS WAV</div>
                 </div>
             </div>
-            <div class="md:col-span-2 q-card tilt-element flex flex-col justify-between">
-                <div>
-                    <div class="inline-block bg-[#ccff00] text-black px-2 py-1 text-[10px] font-black mono mb-4 uppercase">Payload_Decrypted</div>
-                    <h3 id="prev-title" class="text-2xl md:text-3xl font-bold line-clamp-2 mb-2">Archivo Listo</h3>
-                    <p class="mono text-xs text-zinc-500">SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</p>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            
+            <div id="ui-main" class="md:col-span-7 premium-card p-8 min-h-[400px] flex flex-col justify-center overflow-hidden relative">
+                
+                <div id="state-idle" class="grid grid-cols-1 gap-6">
+                    <h4 class="text-center font-black text-slate-400 text-xs uppercase tracking-[0.2em] mb-4">¿Cómo descargar?</h4>
+                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
+                        <div class="step-number">1</div>
+                        <p class="text-sm font-bold">Copia el enlace de tu red social favorita.</p>
+                    </div>
+                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
+                        <div class="step-number">2</div>
+                        <p class="text-sm font-bold">Pégalo arriba y selecciona el formato deseado.</p>
+                    </div>
+                    <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-2xl">
+                        <div class="step-number">3</div>
+                        <p class="text-sm font-bold text-blue-600">Haz clic en descargar y ¡listo!</p>
+                    </div>
                 </div>
-                <div class="mt-8 flex gap-4">
-                    <button id="dl-btn" class="btn-quantum w-full flex items-center justify-center gap-3 hover-target">
-                        <i class="fas fa-download"></i> EXPORT TO LOCAL
+
+                <div id="state-loading" class="hide text-center space-y-6">
+                    <div class="relative w-24 h-24 mx-auto">
+                        <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-blue-600 rounded-full border-t-transparent animate-spin"></div>
+                        <div class="absolute inset-0 flex items-center justify-center"><i class="fas fa-cloud-download-alt text-blue-600 text-2xl"></i></div>
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="text-2xl font-black" id="load-txt">Enlazando...</h4>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Verificando seguridad del enlace</p>
+                    </div>
+                </div>
+
+                <div id="state-result" class="hide space-y-6 animate-in fade-in zoom-in duration-500">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <div class="w-full md:w-48 h-48 rounded-2xl overflow-hidden shadow-xl ring-4 ring-slate-50">
+                            <img id="res-img" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 space-y-3">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-600 rounded-lg text-[10px] font-black uppercase" id="trust-badge">
+                                <i class="fas fa-shield-virus"></i> Escaneo Limpio
+                            </div>
+                            <h3 id="res-title" class="text-2xl font-black leading-tight line-clamp-2">Título del vídeo extraído</h3>
+                            <div class="flex gap-2">
+                                <span class="text-xs font-bold px-2 py-1 bg-slate-100 rounded text-slate-500" id="res-size">~12.4 MB</span>
+                                <span class="text-xs font-bold px-2 py-1 bg-blue-100 rounded text-blue-600" id="res-fmt">MP4 4K</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="res-dl" class="w-full btn-apex py-6 text-2xl shadow-2xl shadow-blue-200">
+                        DESCARGAR AHORA
                     </button>
-                    <button onclick="location.reload()" class="bg-zinc-900 border border-zinc-800 hover:border-zinc-700 px-6 rounded-12 transition-colors hover-target">
-                        <i class="fas fa-redo text-zinc-400"></i>
-                    </button>
+                    <p class="text-center text-[10px] font-bold text-slate-400">Si la descarga no inicia, haz clic derecho y "Guardar como".</p>
+                </div>
+            </div>
+
+            <div class="md:col-span-5 space-y-6">
+                <div class="premium-card bg-slate-50 border-dashed border-2 border-slate-200 h-[200px] flex items-center justify-center relative overflow-hidden">
+                    <span class="text-[10px] font-black text-slate-300">PUBLICIDAD</span>
+                    </div>
+
+                <div class="premium-card p-6">
+                    <h5 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Descargas en vivo</h5>
+                    <div id="live-feed" class="space-y-4">
+                        </div>
+                </div>
+
+                <div class="flex justify-between p-4 opacity-50 grayscale hover:grayscale-0 transition-all">
+                    <i class="fab fa-cc-visa text-3xl"></i>
+                    <i class="fab fa-cc-mastercard text-3xl"></i>
+                    <i class="fab fa-cc-paypal text-3xl"></i>
+                    <i class="fab fa-cc-apple-pay text-3xl"></i>
                 </div>
             </div>
         </div>
 
     </main>
 
+    <footer class="max-w-6xl mx-auto p-12 text-center space-y-6">
+        <div class="flex justify-center gap-8 text-xs font-black text-slate-400 uppercase tracking-widest">
+            <a href="#" class="hover:text-blue-600">Términos</a>
+            <a href="#" class="hover:text-blue-600">Privacidad</a>
+            <a href="#" class="hover:text-blue-600">DMCA</a>
+            <a href="#" class="hover:text-blue-600">Soporte</a>
+        </div>
+        <p class="text-slate-300 text-xs font-medium">© 2026 SnapPro Zenith. Todas las marcas registradas pertenecen a sus respectivos dueños.</p>
+    </footer>
+
     <script>
-        // --- 1. RELOJ DEL SISTEMA ---
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('sys-time').innerText = now.toLocaleTimeString('es-ES', {hour12: false}) + ' UTC';
-        }, 1000);
-
-        // --- 2. CURSOR MAGNÉTICO ---
-        const cursor = document.getElementById('custom-cursor');
-        const trail = document.getElementById('cursor-trail');
-        const hovers = document.querySelectorAll('.hover-target');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            setTimeout(() => { trail.style.left = e.clientX + 'px'; trail.style.top = e.clientY + 'px'; }, 50);
-        });
-
-        hovers.forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                cursor.style.width = '50px'; cursor.style.height = '50px';
-                cursor.style.background = 'rgba(204, 255, 0, 0.2)';
-            });
-            target.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px'; cursor.style.height = '20px';
-                cursor.style.background = 'transparent';
-            });
-        });
-
-        // --- 3. MOTOR FÍSICO 3D (Vanilla Tilt) ---
-        const cards = document.querySelectorAll('.tilt-element');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                const centerX = rect.width / 2; const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateZ(0)`;
-            });
-        });
-
-        // --- 4. OSCILOSCOPIO (Canvas) ---
-        const canvas = document.getElementById('wave-canvas');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = canvas.offsetWidth;
-        let height = canvas.height = canvas.offsetHeight;
-        let time = 0;
-
-        function drawOscilloscope() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.beginPath();
-            ctx.strokeStyle = '#ccff00';
-            ctx.lineWidth = 2;
-            for(let i = 0; i < width; i++) {
-                const noise = Math.random() * 10 - 5;
-                const y = height/2 + Math.sin(i * 0.05 + time) * 30 + Math.cos(i * 0.02) * 15 + noise;
-                if(i === 0) ctx.moveTo(i, y);
-                else ctx.lineTo(i, y);
-            }
-            ctx.stroke();
-            time += 0.1;
-            requestAnimationFrame(drawOscilloscope);
+        // --- 1. LÓGICA DE FORMATO ---
+        let currentFmt = 'mp4';
+        function selFormat(el, fmt) {
+            document.querySelectorAll('.format-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            currentFmt = fmt;
         }
-        drawOscilloscope();
 
-        // --- 5. SECUENCIA QUANTUM (Logic) ---
-        async function executeQuantum() {
+        // --- 2. LIVE FEED (Social Proof) ---
+        const feedData = [
+            {user: "User_88", loc: "Barcelona", plat: "TikTok"},
+            {user: "Marta_G", loc: "México DF", plat: "YouTube"},
+            {user: "Kevin23", loc: "Bogotá", plat: "Instagram"},
+            {user: "AlexDev", loc: "Madrid", plat: "X/Twitter"}
+        ];
+
+        function renderFeed() {
+            const container = document.getElementById('live-feed');
+            const item = feedData[Math.floor(Math.random()*feedData.length)];
+            const html = `
+                <div class="flex items-center gap-3 animate-in slide-in-from-right duration-500">
+                    <div class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-[10px] font-black">${item.user[0]}</div>
+                    <div class="flex-1">
+                        <p class="text-[11px] font-bold">${item.user} <span class="text-slate-400">de ${item.loc}</span></p>
+                        <p class="text-[10px] text-emerald-500 font-bold uppercase">Descargó de ${item.plat}</p>
+                    </div>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+        setInterval(renderFeed, 5000);
+        renderFeed();
+
+        // --- 3. PROCESAMIENTO PRINCIPAL ---
+        async function processRequest() {
             const url = document.getElementById('videoUrl').value.trim();
             if(!url) return;
 
-            document.getElementById('videoUrl').parentElement.parentElement.classList.add('hide');
-            const term = document.getElementById('ui-terminal');
-            term.classList.remove('hide');
-
-            const logs = document.getElementById('terminal-logs');
-            const steps = [
-                "[AUTH] Generando token de un solo uso...",
-                "[NET] Estableciendo túnel P2P encriptado...",
-                "[EXTRACT] Inyectando script de extracción profundo...",
-                "[FILE] Compilando fragmentos binarios...",
-                "[SUCCESS] Archivo ensamblado. Limpiando huellas..."
-            ];
+            // UI Switch
+            document.getElementById('state-idle').classList.add('hide');
+            document.getElementById('state-result').classList.add('hide');
+            document.getElementById('state-loading').classList.remove('hide');
 
             let p = 0;
-            const logInterval = setInterval(() => {
-                p += 1.5;
-                document.getElementById('q-progress').style.width = p + '%';
-                
-                if (p % 20 === 0 && p/20 - 1 < steps.length) {
-                    const line = document.createElement('p');
-                    line.className = 'crt-text';
-                    line.innerText = `> ${steps[Math.floor(p/20) - 1]}`;
-                    logs.appendChild(line);
-                }
-
-                if(p >= 100) clearInterval(logInterval);
-            }, 30);
+            const msgs = ["Detectando Fuente...", "Bypassing Proxy...", "Escaneando Virus...", "Preparando 4K..."];
+            const int = setInterval(() => {
+                p++;
+                if(p % 25 === 0) document.getElementById('load-txt').innerText = msgs[p/25-1];
+                if(p >= 100) clearInterval(int);
+            }, 35);
 
             try {
                 const res = await fetch('/api/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url })
+                    body: JSON.stringify({ url, format: currentFmt })
                 });
                 const data = await res.json();
 
                 if(data.success) {
                     setTimeout(() => {
-                        term.classList.add('hide');
-                        document.getElementById('ui-result').classList.remove('hide');
-                        document.getElementById('prev-img').src = data.thumbnail;
-                        document.getElementById('prev-title').innerText = data.title;
+                        document.getElementById('state-loading').classList.add('hide');
+                        document.getElementById('state-result').classList.remove('hide');
+                        document.getElementById('res-img').src = data.thumbnail;
+                        document.getElementById('res-title').innerText = data.title;
+                        document.getElementById('res-fmt').innerText = currentFmt.toUpperCase() + (currentFmt === 'mp4' ? ' 4K' : ' 320kbps');
                         
-                        document.getElementById('dl-btn').onclick = () => {
+                        document.getElementById('res-dl').onclick = () => {
                             window.open(data.links[0].url, '_blank');
-                            alert("⬇️ Usa Clic Derecho o Mantén Pulsado para guardar el archivo final.");
+                            confetti({ particleCount: 200, spread: 100, origin: { y: 0.8 }, colors: ['#2563eb', '#10b981', '#ffffff'] });
                         };
-                    }, 2500);
+                    }, 4000);
                 }
-            } catch (e) {
-                setTimeout(() => location.reload(), 2000);
-            }
+            } catch (e) { location.reload(); }
         }
     </script>
 </body>
