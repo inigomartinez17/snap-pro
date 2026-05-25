@@ -3,176 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Descarga videos de redes sociales en máxima calidad y sin marca de agua al instante. Herramienta gratuita.">
-    <title>SnapPro | Descargador Premium 4K</title>
+    <meta name="description" content="Descarga videos de redes sociales en máxima calidad al instante.">
+    <title>SnapPro | Ultimate Downloader</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #030712; 
-            background-image: radial-gradient(circle at 50% 0%, #1e3a8a 0%, #030712 40%);
-            background-attachment: fixed;
-        }
-        .glass-panel { 
-            background: rgba(17, 24, 39, 0.6); 
-            backdrop-filter: blur(16px); 
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        .gradient-text { 
-            background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc); 
-            -webkit-background-clip: text; 
-            color: transparent; 
-        }
-        .glow-button {
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-        }
-        .hide-element { display: none !important; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Inter', sans-serif; background: #020617; color: white; min-height: 100vh; }
+        .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .hide { display: none !important; }
+        @keyframes pulse-emerald { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .btn-glow { animation: pulse-emerald 2s infinite; }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col items-center justify-center p-4 sm:p-6">
+<body class="flex items-center justify-center p-4">
 
     <div class="max-w-xl w-full text-center relative z-10">
         
         <div class="mb-10">
-            <h1 class="text-5xl md:text-6xl font-black mb-3 tracking-tighter drop-shadow-lg">
-                Snap<span class="gradient-text">Pro</span>
+            <h1 class="text-5xl md:text-6xl font-black mb-2 tracking-tighter italic">
+                SNAP<span class="text-blue-500">PRO</span>
             </h1>
-            <p class="text-slate-400 text-sm md:text-base font-medium">Extrae contenido en calidad original sin marcas de agua.</p>
+            <p class="text-slate-400 font-medium">Bypass Activo: YT, IG, TT, FB</p>
         </div>
 
-        <div class="glass-panel p-6 md:p-8 rounded-[2rem] relative min-h-[260px] flex flex-col justify-center transition-all duration-500">
+        <div class="glass p-8 rounded-[2rem] shadow-2xl relative min-h-[300px] flex flex-col justify-center">
             
-            <div id="step-input" class="w-full fade-in flex flex-col gap-4">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                        <i class="fas fa-link text-slate-500"></i>
-                    </div>
-                    <input type="url" id="videoUrl" placeholder="Pega el link de TikTok, IG o YouTube..." 
-                        class="w-full bg-slate-950/50 border border-slate-700/50 text-white text-lg p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-600">
-                </div>
-                
-                <button onclick="startDownload()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white p-4 rounded-2xl font-extrabold text-lg transition-all active:scale-[0.98] flex justify-center items-center gap-2 glow-button">
-                    <i class="fas fa-bolt"></i> Procesar Video
+            <div id="step-input" class="space-y-4">
+                <input type="url" id="videoUrl" placeholder="Pega el enlace de la red social..." 
+                    class="w-full bg-black/40 border border-slate-700/50 p-5 rounded-2xl outline-none focus:border-blue-500 transition-all text-center text-lg placeholder:text-slate-600">
+                <button onclick="startProcess()" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 py-5 rounded-2xl font-black text-xl transition-all active:scale-95 shadow-xl shadow-blue-900/20">
+                    EXTRAER VÍDEO
                 </button>
             </div>
 
-            <div id="step-loading" class="hide-element flex-col items-center justify-center w-full fade-in py-2">
-                <i class="fas fa-circle-notch fa-spin text-blue-500 text-5xl mb-4 drop-shadow-md"></i>
-                <p class="text-white font-bold text-lg mb-1">Desencriptando origen...</p>
-                <p class="text-slate-400 text-sm mb-6">Asegurando máxima calidad disponible</p>
-                
-                <a href="#" target="_blank" class="w-full bg-slate-900/80 border border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between hover:bg-slate-800 hover:border-emerald-500/60 transition-all group cursor-pointer relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="text-left flex items-center gap-4 relative z-10">
-                        <div class="bg-emerald-500/20 p-3 rounded-xl">
-                            <i class="fas fa-shield-halved text-emerald-400 text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-emerald-400 font-bold text-xs uppercase tracking-wider mb-0.5">Recomendación de Seguridad</p>
-                            <p class="text-white text-sm font-medium">Navega anónimo con esta VPN Gratuita</p>
-                        </div>
-                    </div>
-                    <i class="fas fa-chevron-right text-slate-500 group-hover:text-white transition-colors relative z-10"></i>
-                </a>
+            <div id="step-loading" class="hide py-6 flex flex-col items-center">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 mb-4"></div>
+                <p class="text-xl font-bold text-white mb-2">Canalizando a través del Proxy...</p>
+                <p class="text-sm text-slate-400">Evitando bloqueos de servidor origen (Error 403)</p>
             </div>
 
-            <div id="step-result" class="hide-element flex-col items-center w-full fade-in">
-                <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
-                    <i class="fas fa-check text-white text-3xl"></i>
+            <div id="step-result" class="hide space-y-5">
+                <div class="bg-emerald-500/20 text-emerald-400 p-2 rounded-xl inline-block px-4 font-bold text-sm uppercase tracking-widest border border-emerald-500/30">
+                    Bypass Exitoso
                 </div>
-                <h3 id="videoTitle" class="text-lg font-bold text-white mb-6 truncate w-full px-4 text-center">Video listo para guardar</h3>
+                <h2 id="videoTitle" class="text-lg font-bold text-white truncate px-4">Video Listo</h2>
                 
-                <a id="downloadBtn" href="#" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white p-4 rounded-2xl font-bold text-lg mb-3 shadow-lg shadow-emerald-600/20 flex justify-center items-center gap-2 transition-all active:scale-[0.98]">
-                    <i class="fas fa-download"></i> Descargar Archivo Normal
+                <a id="downloadBtn" href="#" class="block w-full bg-emerald-600 hover:bg-emerald-500 py-5 rounded-2xl font-black text-xl btn-glow transition-all text-white shadow-lg shadow-emerald-900/40">
+                   <i class="fas fa-download mr-2"></i> DESCARGAR AHORA
                 </a>
-
-                <a href="#" target="_blank" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 hover:border-slate-400 p-4 rounded-2xl font-bold text-md flex justify-center items-center gap-2 transition-all active:scale-[0.98] relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 bg-gradient-to-l from-purple-600 to-blue-600 text-[10px] px-3 py-1 rounded-bl-lg font-black uppercase tracking-wider shadow-md">Premium</div>
-                    <i class="fas fa-wand-magic-sparkles text-purple-400 group-hover:text-purple-300 transition-colors"></i> 
-                    Mejorar resolución a 4K con IA
-                </a>
+                
+                <button onclick="location.reload()" class="text-slate-400 text-sm hover:text-white transition-colors mt-4">
+                    <i class="fas fa-rotate-right mr-1"></i> Limpiar y procesar otro
+                </button>
             </div>
+
         </div>
     </div>
 
     <script>
-        async function startDownload() {
+        async function startProcess() {
             const urlInput = document.getElementById('videoUrl').value.trim();
-            
-            if(!urlInput) {
-                alert("⚠️ Por favor, introduce un enlace válido primero.");
-                return;
-            }
+            if(!urlInput) return alert("Pega un enlace válido.");
 
-            document.getElementById('step-input').classList.add('hide-element');
-            const stepLoading = document.getElementById('step-loading');
-            stepLoading.classList.remove('hide-element');
-            stepLoading.classList.add('flex');
+            document.getElementById('step-input').classList.add('hide');
+            document.getElementById('step-loading').classList.remove('hide');
 
-            const waitTime = new Promise(resolve => setTimeout(resolve, 3500));
-            
-            const apiCall = fetch('/api/download', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: urlInput })
-            })
-            .then(res => res.json())
-            .catch(err => {
-                return { success: false, error: "Fallo crítico de conexión web: " + err };
-            });
-
-            const [_, data] = await Promise.all([waitTime, apiCall]);
-
-            stepLoading.classList.remove('flex');
-            stepLoading.classList.add('hide-element');
-            
-            if(data && data.success && data.rawData) {
-                const raw = data.rawData;
-                let finalUrl = null;
+            try {
+                // 1. Llama al buscador (download.js)
+                const res = await fetch('/api/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: urlInput })
+                });
                 
-                if (raw.links && Array.isArray(raw.links) && raw.links.length > 0) {
-                    finalUrl = raw.links[0].link || raw.links[0].url;
-                } else if (raw.medias && Array.isArray(raw.medias) && raw.medias.length > 0) {
-                    const noWatermark = raw.medias.find(m => m.type === 'video' && m.quality !== 'watermark');
-                    if (noWatermark) {
-                        finalUrl = noWatermark.url || noWatermark.link;
+                const data = await res.json();
+
+                // Damos 2 segundos visuales de "hackeo"
+                setTimeout(() => {
+                    document.getElementById('step-loading').classList.add('hide');
+                    
+                    if(data.success && data.downloadUrl) {
+                        document.getElementById('step-result').classList.remove('hide');
+                        document.getElementById('videoTitle').innerText = data.title;
+                        
+                        // 2. Conecta el botón verde al proxy (proxy.js) con la URL cruda encriptada
+                        const encodedUrl = encodeURIComponent(data.downloadUrl);
+                        document.getElementById('downloadBtn').href = `/api/proxy?url=${encodedUrl}`;
                     } else {
-                        finalUrl = raw.medias[0].url || raw.medias[0].link;
+                        alert("❌ Error: " + (data.error || "No se pudo extraer el enlace."));
+                        location.reload();
                     }
-                } else if (raw.url) { finalUrl = raw.url; }
-                else if (raw.video) { finalUrl = raw.video; }
-                else if (raw.hd) { finalUrl = raw.hd; }
-                else if (raw.data && raw.data.play) { finalUrl = raw.data.play; }
-                else if (raw.data && raw.data.hdplay) { finalUrl = raw.data.hdplay; }
+                }, 2000);
 
-                if (finalUrl) {
-                    const stepResult = document.getElementById('step-result');
-                    stepResult.classList.remove('hide-element');
-                    stepResult.classList.add('flex');
-                    document.getElementById('videoTitle').innerText = raw.title || "Video HD Procesado";
-                    document.getElementById('downloadBtn').href = finalUrl;
-                } else {
-                    alert("❌ La API conectó bien pero no encontramos el MP4. Respuesta: " + JSON.stringify(raw).substring(0, 100));
-                    reiniciar();
-                }
-            } else {
-                const mensajeError = data.error || (data.rawData && data.rawData.message) || "Desconocido";
-                alert("❌ ERROR DEL SERVIDOR: " + mensajeError);
-                reiniciar();
+            } catch (err) {
+                alert("❌ Fallo crítico de conexión de red.");
+                location.reload();
             }
-        }
-
-        function reiniciar() {
-            document.getElementById('step-input').classList.remove('hide-element');
-            document.getElementById('videoUrl').value = '';
         }
     </script>
 </body>
