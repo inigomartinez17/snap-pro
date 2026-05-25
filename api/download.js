@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Cabeceras de seguridad
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -9,7 +8,6 @@ export default async function handler(req, res) {
   try {
     const { url } = req.body;
     
-    // Llamada a tu cuenta de RapidAPI
     const response = await fetch('https://social-download-all-in-one.p.rapidapi.com/v1/social/autolink', {
       method: 'POST',
       headers: {
@@ -22,30 +20,33 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    if (data.message || (data.code && data.code !== 200 && data.code !== 0)) {
-        return res.status(400).json({ success: false, error: data.message || "La API rechazó la solicitud." });
+    // Lógica Pro: Buscamos la mejor calidad y el thumbnail para la previsualización
+    let result = {
+        success: true,
+        title: data.title || "Video Premium",
+        thumbnail: data.thumbnail || data.picture || "",
+        duration: data.duration || "",
+        source: data.source || "social",
+        links: []
+    };
+
+    if (data.medias) {
+        result.links = data.medias.map(m => ({
+            url: m.url || m.link,
+            quality: m.quality || 'HD',
+            extension: m.extension || 'mp4'
+        }));
+    } else if (data.url || data.link) {
+        result.links.push({ url: data.url || data.link, quality: 'Default', extension: 'mp4' });
     }
 
-    // Lógica de extracción de la mejor calidad
-    let finalUrl = null;
-    let title = data.title || "Video Premium";
-
-    if (data.medias && Array.isArray(data.medias) && data.medias.length > 0) {
-        const noWatermark = data.medias.find(m => m.type === 'video' && m.quality !== 'watermark');
-        finalUrl = noWatermark ? (noWatermark.url || noWatermark.link) : (data.medias[0].url || data.medias[0].link);
-    } else if (data.links && Array.isArray(data.links) && data.links.length > 0) {
-        finalUrl = data.links[0].link || data.links[0].url;
-    } else if (data.url) { finalUrl = data.url; }
-    else if (data.video) { finalUrl = data.video; }
-    else if (data.hd) { finalUrl = data.hd; }
-
-    if (finalUrl) {
-        res.status(200).json({ success: true, downloadUrl: finalUrl, title: title });
+    if (result.links.length > 0) {
+        res.status(200).json(result);
     } else {
-        res.status(400).json({ success: false, error: "Formato de red social no compatible." });
+        res.status(400).json({ success: false, error: "No se encontraron medios extraíbles." });
     }
     
   } catch (error) {
-    res.status(500).json({ success: false, error: "Error de servidor interno." });
+    res.status(500).json({ success: false, error: "Error de conexión con el nodo de extracción." });
   }
 }
