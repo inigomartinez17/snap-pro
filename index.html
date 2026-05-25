@@ -3,100 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapPro Ultra | 4K Video Downloader</title>
+    <title>SnapPro Ultra | Professional 4K Video Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         :root { --primary: #3b82f6; --accent: #10b981; }
-        body { background: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .gradient-border { border: 2px solid transparent; background: linear-gradient(#020617, #020617) padding-box, linear-gradient(90deg, #3b82f6, #8b5cf6) border-box; }
+        body { 
+            background: #020617; 
+            color: #f8fafc; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #020617 80%);
+        }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
         .hide { display: none !important; }
-        .shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
+        .shimmer { 
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); 
+            background-size: 200% 100%; 
+            animation: shimmer 2s infinite; 
+        }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .btn-premium { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); }
+        .ad-placeholder { background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.1); border-radius: 1rem; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-12 px-4">
+<body class="min-h-screen flex flex-col items-center py-8 px-4">
 
-    <header class="mb-12 text-center">
-        <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4 border border-blue-500/20">
-            v3.0 Ultra Premium
+    <div class="max-w-4xl w-full h-20 mb-8 ad-placeholder">Espacio para Banner de Anuncios (728x90)</div>
+
+    <header class="mb-10 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold uppercase tracking-tighter mb-4 border border-blue-500/20">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            Infraestructura Edge v3.5 Activa
         </div>
-        <h1 class="text-6xl font-black tracking-tighter bg-gradient-to-r from-white to-slate-500 bg-clip-text text-transparent">
+        <h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter text-white mb-2">
             SNAP<span class="text-blue-500">PRO</span>
         </h1>
-        <p class="text-slate-400 mt-2">Twitch, YouTube, TikTok & More</p>
+        <p class="text-slate-400 text-lg">La suite definitiva para creadores y coleccionistas.</p>
     </header>
 
     <main class="max-w-2xl w-full">
-        <div class="glass rounded-[2.5rem] p-2 md:p-8 shadow-3xl">
+        <div class="glass rounded-[3rem] p-3 md:p-10 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl"></div>
             
-            <div id="ui-search" class="p-4 space-y-4">
-                <div class="relative">
-                    <input type="url" id="videoUrl" placeholder="Pega el enlace aquí..." 
-                        class="w-full bg-slate-900/50 border border-slate-700 p-6 rounded-3xl outline-none focus:ring-4 focus:ring-blue-500/20 transition-all text-lg pr-16">
-                    <button onclick="analyze()" class="absolute right-3 top-3 bottom-3 bg-blue-600 hover:bg-blue-500 px-6 rounded-2xl transition-all active:scale-95">
-                        <i class="fas fa-arrow-right"></i>
+            <div id="ui-search" class="relative z-10 space-y-6">
+                <div class="space-y-2 text-center">
+                    <h3 class="text-xl font-bold">Descarga en 1 clic</h3>
+                    <p class="text-slate-500 text-sm">Pega el enlace de YT, IG, TikTok, Twitch o FB.</p>
+                </div>
+
+                <div class="relative group">
+                    <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." 
+                        class="w-full bg-slate-950/80 border border-slate-800 p-6 rounded-[2rem] outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all text-lg placeholder:text-slate-700">
+                    <button onclick="analyze()" class="absolute right-3 top-3 bottom-3 bg-blue-600 hover:bg-blue-500 px-8 rounded-2xl transition-all active:scale-95 font-bold shadow-lg shadow-blue-900/20">
+                        ANALIZAR
                     </button>
                 </div>
-                <div class="flex justify-center gap-6 text-slate-500 text-sm">
-                    <span><i class="fab fa-youtube text-red-500"></i> YT</span>
-                    <span><i class="fab fa-tiktok"></i> TikTok</span>
-                    <span><i class="fab fa-twitch text-purple-500"></i> Twitch</span>
-                    <span><i class="fab fa-instagram text-pink-500"></i> IG</span>
+
+                <div class="flex justify-center gap-8 text-slate-500 text-xs font-bold grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all">
+                    <span class="flex flex-col items-center gap-1"><i class="fab fa-youtube text-xl"></i></span>
+                    <span class="flex flex-col items-center gap-1"><i class="fab fa-tiktok text-xl"></i></span>
+                    <span class="flex flex-col items-center gap-1"><i class="fab fa-twitch text-xl"></i></span>
+                    <span class="flex flex-col items-center gap-1"><i class="fab fa-instagram text-xl"></i></span>
                 </div>
             </div>
 
-            <div id="ui-loading" class="hide p-8 space-y-4">
-                <div class="h-48 w-full rounded-3xl shimmer"></div>
-                <div class="h-6 w-3/4 rounded shimmer mx-auto"></div>
-                <div class="h-12 w-full rounded-2xl shimmer"></div>
+            <div id="ui-loading" class="hide p-8 space-y-6">
+                <div class="h-56 w-full rounded-[2rem] shimmer"></div>
+                <div class="space-y-3">
+                    <div class="h-6 w-3/4 rounded shimmer mx-auto"></div>
+                    <div class="h-14 w-full rounded-2xl shimmer"></div>
+                </div>
             </div>
 
-            <div id="ui-result" class="hide p-4 md:p-6 space-y-6">
-                <div class="relative group rounded-3xl overflow-hidden border border-slate-700">
-                    <img id="prev-img" src="" class="w-full h-48 object-cover opacity-50 group-hover:scale-105 transition-transform duration-700">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-black/60 p-4 rounded-full backdrop-blur-md">
-                            <i class="fas fa-play text-white text-2xl"></i>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-4 left-4 right-4 text-left">
-                        <h2 id="prev-title" class="font-bold text-lg line-clamp-1">Título del Vídeo</h2>
-                        <span id="prev-source" class="text-xs font-black uppercase text-blue-400">Plataforma</span>
+            <div id="ui-result" class="hide space-y-6 relative z-10">
+                <div class="relative group rounded-[2rem] overflow-hidden border border-slate-800 bg-black/40">
+                    <img id="prev-img" src="" class="w-full h-56 object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                        <span id="prev-source" class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase mb-3 border border-white/10 tracking-widest">YouTube Video</span>
+                        <h2 id="prev-title" class="font-bold text-xl line-clamp-2 text-white drop-shadow-lg">Título</h2>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 gap-3">
-                    <button id="main-download" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 py-5 rounded-2xl font-black text-xl shadow-lg shadow-blue-900/40 hover:brightness-110 transition-all active:scale-[0.98]">
-                        <i class="fas fa-download mr-2"></i> DESCARGAR 4K
+                <div class="space-y-3">
+                    <button id="main-download" class="w-full btn-premium py-5 rounded-2xl font-extrabold text-xl flex items-center justify-center gap-3">
+                        <i class="fas fa-crown"></i> DESCARGAR AHORA
                     </button>
-                    
-                    <div class="flex gap-2">
-                        <button onclick="location.reload()" class="flex-1 bg-slate-800 hover:bg-slate-700 py-4 rounded-2xl font-bold text-sm">
-                            <i class="fas fa-redo mr-2"></i> OTRO
-                        </button>
-                        <a id="direct-link" target="_blank" class="flex-1 bg-slate-800/50 border border-slate-700 hover:bg-slate-700 py-4 rounded-2xl font-bold text-sm text-center">
-                            <i class="fas fa-link mr-2"></i> LINK DIRECTO
-                        </a>
-                    </div>
-                </div>
-
-                <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-4">
-                    <div class="bg-emerald-500 p-2 rounded-lg text-black"><i class="fas fa-crown"></i></div>
-                    <div class="text-left text-xs">
-                        <p class="font-bold text-emerald-400">¿Quieres descargas ilimitadas?</p>
-                        <p class="text-slate-400">Consigue SnapPro Premium por solo 1.99€</p>
-                    </div>
+                    <button onclick="location.reload()" class="w-full bg-slate-800/50 hover:bg-slate-800 py-4 rounded-2xl font-bold text-slate-400 transition-all">
+                        PROCESAR OTRO ENLACE
+                    </button>
                 </div>
             </div>
         </div>
+
+        <div class="mt-8 glass rounded-[2rem] p-8 text-center border-emerald-500/10">
+            <h4 class="font-bold mb-2">🚀 ¡Únete a la élite!</h4>
+            <p class="text-slate-400 text-sm mb-4">Suscríbete para recibir trucos de creación de contenido y actualizaciones premium.</p>
+            <div class="flex gap-2">
+                <input type="email" placeholder="tu@email.com" class="flex-1 bg-black/30 border border-slate-800 rounded-xl px-4 py-3 outline-none focus:border-blue-500/50">
+                <button class="bg-emerald-600 hover:bg-emerald-500 px-6 rounded-xl font-bold text-sm transition-all">UNIRME</button>
+            </div>
+        </div>
+
+        <div class="mt-8 w-full h-32 ad-placeholder">Publicidad Nativa / Recomendados</div>
     </main>
+
+    <footer class="mt-12 text-slate-600 text-xs space-y-4 text-center">
+        <p>&copy; 2026 SnapPro Ultra - Sin límites, sin bloqueos.</p>
+        <div class="flex justify-center gap-4">
+            <a href="#" class="hover:text-slate-400">Términos</a>
+            <a href="#" class="hover:text-slate-400">Privacidad</a>
+            <a href="#" class="hover:text-slate-400">Contacto</a>
+        </div>
+    </footer>
 
     <script>
         async function analyze() {
-            const url = document.getElementById('videoUrl').value.trim();
-            if(!url) return;
+            const urlInput = document.getElementById('videoUrl').value.trim();
+            if(!urlInput) return;
 
             document.getElementById('ui-search').classList.add('hide');
             document.getElementById('ui-loading').classList.remove('hide');
@@ -105,7 +135,7 @@
                 const res = await fetch('/api/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: url })
+                    body: JSON.stringify({ url: urlInput })
                 });
                 const data = await res.json();
 
@@ -114,46 +144,34 @@
                         document.getElementById('ui-loading').classList.add('hide');
                         document.getElementById('ui-result').classList.remove('hide');
                         
-                        // Llenar datos de previsualización
                         document.getElementById('prev-img').src = data.thumbnail || 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1000&auto=format&fit=crop';
                         document.getElementById('prev-title').innerText = data.title;
-                        document.getElementById('prev-source').innerText = data.source;
+                        document.getElementById('prev-source').innerText = data.source + " Source";
 
-                        // Configurar descarga Pro
                         const dlBtn = document.getElementById('main-download');
-                        const directBtn = document.getElementById('direct-link');
                         const videoLink = data.links[0].url;
 
-                        directBtn.href = videoLink;
-                        
-                        // LÓGICA ULTRA: Intentamos descargar mediante Fetch para saltar 403
-                        dlBtn.onclick = async () => {
-                            dlBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESANDO...';
-                            try {
-                                const response = await fetch(videoLink);
-                                const blob = await response.blob();
-                                const urlBlob = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.style.display = 'none';
-                                a.href = urlBlob;
-                                a.download = `SnapPro_${Date.now()}.mp4`;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(urlBlob);
-                                dlBtn.innerHTML = '<i class="fas fa-check"></i> ¡COMPLETADO!';
-                            } catch (e) {
-                                // Si falla el blob (por CORS), abrimos el proxy como última opción
-                                window.open(`/api/proxy?url=${encodeURIComponent(videoLink)}`, '_blank');
-                                dlBtn.innerHTML = '<i class="fas fa-download"></i> DESCARGAR 4K';
-                            }
+                        // LÓGICA DE BYPASS HONESTO PARA EVITAR 403
+                        dlBtn.onclick = (e) => {
+                            e.preventDefault();
+                            dlBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> PREPARANDO FLUJO...';
+                            
+                            // Abrimos en pestaña nueva (IP del usuario)
+                            window.open(videoLink, '_blank');
+                            
+                            // Instrucción de guardado
+                            setTimeout(() => {
+                                alert("⭐ ¡ACCIÓN REQUERIDA!\n\nEl vídeo se ha abierto en una pestaña nueva para saltar el bloqueo de seguridad.\n\n📱 MÓVIL: Mantén pulsado el vídeo y selecciona 'Descargar Vídeo'.\n\n💻 PC: Haz clic derecho sobre el vídeo y elige 'Guardar vídeo como...'.");
+                                dlBtn.innerHTML = '<i class="fas fa-crown"></i> DESCARGAR AHORA';
+                            }, 800);
                         };
                     }, 1500);
                 } else {
-                    alert("Error: Plataforma no soportada o enlace privado.");
+                    alert("No hemos podido extraer este vídeo. Prueba con otro enlace.");
                     location.reload();
                 }
             } catch (e) {
-                alert("Error de conexión con el servidor.");
+                alert("Error de red. Revisa tu conexión.");
                 location.reload();
             }
         }
