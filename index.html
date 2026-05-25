@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SnapPro | Ultimate Media Downloader</title>
+    <title>SnapPro V21 | Ultimate Media Downloader</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: { extend: { colors: { pro: '#8b5cf6', 'pro-hover': '#7c3aed' } } }
+            theme: { extend: { colors: { pro: '#8b5cf6', 'pro-hover': '#7c3aed', coffee: '#FFDD00' } } }
         }
     </script>
     
@@ -19,24 +19,18 @@
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
         .bento-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .bento-card:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
         .dark .bento-card:hover { box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
-
         .btn-primary { background: #2563eb; color: white; border-radius: 1rem; font-weight: 800; transition: all 0.2s; }
-        .btn-primary:hover { background: #1d4ed8; transform: scale(1.02); box-shadow: 0 10px 20px rgba(37,99,235,0.3); }
-        
+        .btn-primary:hover { background: #1d4ed8; transform: scale(1.02); }
         .btn-pro { background: linear-gradient(135deg, #8b5cf6, #d946ef); color: white; border-radius: 1rem; font-weight: 800; transition: all 0.2s; }
-        .btn-pro:hover { filter: brightness(1.1); transform: scale(1.02); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); }
-
+        .btn-pro:hover { filter: brightness(1.1); transform: scale(1.02); }
         .hide { display: none !important; }
-
-        /* Pricing Cards */
+        
         .price-card { border: 2px solid transparent; transition: all 0.2s; cursor: pointer; }
         .price-card.selected { border-color: #8b5cf6; background-color: rgba(139, 92, 246, 0.05); transform: scale(1.02); }
 
-        /* Toast Notifications */
         #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
         .toast { padding: 12px 20px; border-radius: 12px; background: white; color: #0f172a; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 14px; animation: slide-in 0.3s ease-out forwards; border-left: 4px solid #2563eb; }
         .dark .toast { background: #1e293b; color: white; border-left-color: #3b82f6; }
@@ -56,7 +50,7 @@
 
     <div class="w-full bg-slate-900 text-white py-1.5 px-4 flex justify-between items-center text-[10px] font-bold tracking-widest z-50 relative">
         <span class="flex items-center gap-2"><i class="fas fa-shield-check text-emerald-400"></i> <span data-lang="ssl">SSL 256-BIT SEGURO</span></span>
-        <span class="text-slate-400">V19 PRODUCTION</span>
+        <span class="text-slate-400">V21 FULL STACK</span>
     </div>
 
     <nav class="max-w-6xl w-full mx-auto p-6 flex justify-between items-center z-40 relative">
@@ -66,16 +60,28 @@
         </div>
         
         <div class="flex items-center gap-4">
-            <select id="lang-select" onchange="changeLang(this.value)" class="bg-transparent font-bold text-sm cursor-pointer outline-none dark:text-white dark:bg-slate-950">
+            <select id="lang-select" onchange="changeLang(this.value)" class="bg-transparent font-bold text-sm cursor-pointer outline-none dark:text-white dark:bg-slate-950 hidden md:block">
                 <option value="es">🇪🇸 ES</option>
                 <option value="en">🇬🇧 EN</option>
             </select>
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 hover:bg-slate-300 transition">
                 <i id="theme-icon" class="fas fa-moon"></i>
             </button>
-            <button id="nav-pro-btn" onclick="openProModal()" class="hidden md:flex items-center gap-2 btn-pro px-4 py-2 text-xs">
-                <i class="fas fa-crown"></i> <span data-lang="nav_pro">HAZTE PRO</span>
-            </button>
+            
+            <div id="user-ui-logged-out" class="flex items-center gap-2">
+                <button onclick="openLoginModal()" class="font-bold text-sm text-slate-600 dark:text-slate-300 hover:text-blue-600 transition px-3" data-lang="login">Entrar</button>
+                <button onclick="openProModal()" class="hidden md:flex items-center gap-2 btn-pro px-4 py-2 text-xs">
+                    <i class="fas fa-crown"></i> <span data-lang="nav_pro">HAZTE PRO</span>
+                </button>
+            </div>
+
+            <div id="user-ui-logged-in" class="hide flex items-center gap-4">
+                <span class="text-xs font-bold bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 px-3 py-1 rounded-full"><i class="fas fa-crown"></i> PRO</span>
+                <div class="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded-full flex items-center justify-center cursor-pointer hover:bg-slate-300 transition" onclick="logout()" title="Cerrar sesión">
+                    <i class="fas fa-user text-slate-500"></i>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -87,10 +93,10 @@
             Pega el enlace de TikTok, YouTube o Instagram. Sin marcas de agua, máxima resolución.
         </p>
 
-        <div class="bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2 flex flex-col md:flex-row gap-2 max-w-3xl mx-auto rounded-2xl shadow-xl relative z-10">
+        <div class="bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2 flex flex-col md:flex-row gap-2 max-w-3xl mx-auto rounded-2xl shadow-xl">
             <div class="flex-1 relative flex items-center">
                 <i class="fas fa-link absolute left-5 text-slate-400 text-lg"></i>
-                <input type="url" id="videoUrl" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white py-5 pl-14 pr-24 rounded-xl outline-none text-lg transition-colors focus:ring-2 focus:ring-blue-500" placeholder="https://...">
+                <input type="url" id="videoUrl" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white py-5 pl-14 pr-24 rounded-xl outline-none text-lg" placeholder="https://...">
                 <button onclick="smartPaste()" class="absolute right-4 text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 transition uppercase" data-lang="btn_paste">Pegar</button>
             </div>
             <button onclick="startProcess()" class="btn-primary px-10 py-5 text-lg w-full md:w-auto flex items-center justify-center gap-2">
@@ -99,15 +105,15 @@
         </div>
 
         <div class="flex flex-wrap justify-center gap-3 pt-4">
-            <button class="format-btn active bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border-2 border-blue-600 px-5 py-2 rounded-xl text-sm font-bold transition" onclick="setFormat(this, 'mp4')">MP4 (1080p)</button>
-            <button class="format-btn bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 border-2 border-transparent hover:bg-slate-200 dark:hover:bg-slate-700 px-5 py-2 rounded-xl text-sm font-bold transition" onclick="setFormat(this, 'mp3')">MP3 (320kbps)</button>
-            <button class="format-btn pro-locked bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400 border-2 border-purple-500 px-5 py-2 rounded-xl text-sm font-bold transition" onclick="requirePro('4k')"><i class="fas fa-crown mr-1"></i> MP4 (4K/8K)</button>
+            <button class="format-btn active bg-blue-50 text-blue-600 border-2 border-blue-600 px-5 py-2 rounded-xl text-sm font-bold" onclick="setFormat(this, 'mp4')">MP4 (1080p)</button>
+            <button class="format-btn bg-slate-100 text-slate-600 border-2 border-transparent px-5 py-2 rounded-xl text-sm font-bold" onclick="setFormat(this, 'mp3')">MP3 (Audio)</button>
+            <button class="format-btn pro-locked bg-purple-50 text-purple-600 border-2 border-purple-500 px-5 py-2 rounded-xl text-sm font-bold" onclick="requirePro('4k')"><i class="fas fa-crown"></i> 4K/8K (PRO)</button>
         </div>
     </header>
 
     <main class="max-w-6xl w-full mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-6 pb-20 flex-1">
         
-        <section id="dynamic-panel" class="md:col-span-8 bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl min-h-[350px] flex items-center justify-center relative overflow-hidden">
+        <section class="md:col-span-8 bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl min-h-[350px] flex items-center justify-center">
             
             <div id="ui-idle" class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade text-center">
                 <div class="space-y-3">
@@ -128,88 +134,128 @@
             </div>
 
             <div id="ui-loading" class="hide w-full max-w-sm text-center space-y-6">
-                <div class="text-4xl text-blue-600 dark:text-blue-500 animate-bounce"><i class="fas fa-satellite-dish"></i></div>
+                <div class="text-4xl text-blue-600 animate-spin"><i class="fas fa-circle-notch"></i></div>
                 <div>
-                    <h3 class="text-2xl font-black mb-1 text-slate-900 dark:text-white" id="loading-title">Procesando...</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest" id="loading-sub">Conectando a la API</p>
+                    <h3 class="text-2xl font-black mb-1" id="loading-title">Extrayendo Datos...</h3>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-widest" id="loading-sub">Conectando a la API</p>
                 </div>
-                <div class="h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden relative">
+                <div class="h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div id="loading-bar" class="h-full bg-blue-600 w-0 transition-all duration-200"></div>
                 </div>
             </div>
 
-            <div id="ui-result" class="hide w-full flex flex-col md:flex-row gap-6 animate-fade">
-                <div class="w-full md:w-56 h-56 rounded-2xl overflow-hidden relative shadow-lg">
-                    <img id="res-img" class="w-full h-full object-cover">
-                    <div class="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-black uppercase"><i class="fas fa-shield-check"></i> <span data-lang="badge_safe">Seguro</span></div>
-                </div>
-                <div class="flex-1 flex flex-col justify-center space-y-4">
-                    <h3 id="res-title" class="text-2xl font-bold line-clamp-2 text-slate-900 dark:text-white">Título del Vídeo</h3>
-                    <div class="flex gap-2">
-                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded text-xs font-bold" id="res-type">MP4</span>
-                        <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded text-xs font-bold">1080p Listo</span>
+            <div id="ui-result" class="hide w-full flex flex-col gap-6 animate-fade">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="w-full md:w-64 h-40 bg-slate-200 dark:bg-slate-800 rounded-2xl overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
+                        <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded font-bold">03:45</span>
+                        <div class="absolute top-2 left-2 bg-emerald-500 text-white text-[10px] px-2 py-1 rounded font-black uppercase shadow"><i class="fas fa-shield-check"></i> <span data-lang="badge_safe">Seguro</span></div>
                     </div>
-                    <div class="flex gap-3 pt-2">
-                        <button onclick="executeRealDownload()" class="flex-1 btn-primary py-4 text-lg flex items-center justify-center gap-2"><i class="fas fa-save"></i> <span data-lang="btn_save">GUARDAR ARCHIVO</span></button>
-                        <button onclick="shareResult()" class="w-14 h-14 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl flex items-center justify-center hover:bg-slate-200 dark:hover:bg-slate-700 transition"><i class="fas fa-share-alt"></i></button>
+                    
+                    <div class="flex-1 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold line-clamp-2 mb-2 text-slate-900 dark:text-white">Entrevista Exclusiva: El Futuro de la IA en 2026</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4 font-medium">
+                            <div><i class="fas fa-user text-slate-400 mr-2"></i> @TechCreator</div>
+                            <div><i class="fas fa-eye text-slate-400 mr-2"></i> 1.2M Vistas</div>
+                            <div><i class="fas fa-file-video text-slate-400 mr-2"></i> <span id="res-type-label" class="uppercase font-bold text-slate-700 dark:text-slate-200">MP4</span></div>
+                            <div><i class="fas fa-weight-hanging text-slate-400 mr-2"></i> ~45 MB</div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button onclick="executeRealDownload()" class="flex-1 btn-primary py-3 text-lg flex items-center justify-center gap-2"><i class="fas fa-download"></i> <span data-lang="btn_save">GUARDAR ARCHIVO</span></button>
+                            <button onclick="shareResult()" class="w-12 h-12 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl flex items-center justify-center hover:bg-slate-200 transition"><i class="fas fa-share-alt"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <aside class="md:col-span-4 space-y-6">
-            <div class="bento-card h-[250px] flex items-center justify-center bg-slate-100/50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl">
-                <span class="text-xs font-black text-slate-400 dark:text-slate-600 uppercase" data-lang="ad_space">Espacio Publicitario</span>
+            
+            <div class="bento-card bg-[#FFDD00]/10 border border-[#FFDD00]/30 p-6 rounded-3xl text-center">
+                <i class="fas fa-coffee text-4xl text-[#FFDD00] mb-3"></i>
+                <h4 class="font-bold text-slate-900 dark:text-white mb-2" data-lang="coffee_title">¿Te gusta la herramienta?</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mb-4" data-lang="coffee_sub">Mantener los servidores no es gratis. ¡Invítame a un café!</p>
+                <button onclick="showToast('Redirigiendo a tu Ko-Fi/PayPal...', 'default')" class="w-full py-3 bg-[#FFDD00] text-black font-black rounded-xl hover:bg-[#ffea00] transition">
+                    <span data-lang="coffee_btn">APOYAR PROYECTO</span>
+                </button>
             </div>
-            <div class="bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl">
+
+            <div class="bento-card h-[150px] flex flex-col items-center justify-center bg-slate-100/50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl relative overflow-hidden">
+                <span class="text-xs font-black text-slate-400 dark:text-slate-600 uppercase mb-2" data-lang="ad_space">Espacio Publicitario</span>
+            </div>
+
+            <div class="bento-card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl hidden md:block">
                 <h4 class="font-bold mb-4 text-sm uppercase text-slate-500 dark:text-slate-400" data-lang="live_feed">Descargas en Directo</h4>
-                <div id="live-feed" class="space-y-4"></div>
+                <div id="live-feed" class="space-y-4 max-h-[200px] overflow-hidden relative"></div>
             </div>
+
         </aside>
     </main>
 
+    <div id="login-modal" class="hide fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl p-8 relative border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-black dark:hover:text-white"><i class="fas fa-times text-xl"></i></button>
+            <h2 class="text-3xl font-black mb-6 text-center text-slate-900 dark:text-white">Bienvenido</h2>
+            
+            <div class="space-y-4 mb-6">
+                <input type="email" placeholder="Correo electrónico" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="password" placeholder="Contraseña" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white p-4 rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                <button onclick="simulateLogin()" class="w-full btn-primary py-4">Iniciar Sesión</button>
+            </div>
+
+            <div class="flex items-center gap-2 text-slate-400 text-sm mb-6">
+                <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
+                <span>O entra con</span>
+                <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-3 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition"><i class="fab fa-google text-red-500 mr-2"></i> Google</button>
+                <button class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-3 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition"><i class="fab fa-apple text-slate-900 dark:text-white mr-2"></i> Apple</button>
+            </div>
+        </div>
+    </div>
+
     <div id="pro-modal" class="hide fixed inset-0 bg-slate-900/90 backdrop-blur-md z-[100] flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-3xl p-8 relative border border-slate-200 dark:border-slate-800 shadow-2xl animate-fade my-8">
-            <button onclick="closeProModal()" class="absolute top-6 right-6 text-slate-400 dark:text-slate-500 hover:text-black dark:hover:text-white"><i class="fas fa-times text-2xl"></i></button>
+            <button onclick="closeProModal()" class="absolute top-6 right-6 text-slate-400 hover:text-black dark:hover:text-white"><i class="fas fa-times text-2xl"></i></button>
             
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-2xl mx-auto mb-4 text-3xl"><i class="fas fa-crown"></i></div>
-                <h2 class="text-4xl font-black mb-2 text-slate-900 dark:text-white">SnapPro<span class="text-purple-600 dark:text-purple-400">+</span></h2>
-                <p class="text-slate-500 dark:text-slate-400 text-lg" data-lang="pro_desc">Velocidad sin límites, resoluciones 8K y cero publicidad.</p>
+                <h2 class="text-4xl font-black mb-2 text-slate-900 dark:text-white">SnapPro<span class="text-purple-600">+</span></h2>
+                <p class="text-slate-500 dark:text-slate-400" data-lang="pro_desc">Apoya al desarrollador y desbloquea el máximo potencial.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="price-card bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col" onclick="selectPlan(this, 'Weekly')">
-                    <h3 class="font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase text-sm" data-lang="plan_week">Pase Semanal</h3>
+                <div class="price-card bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col" onclick="selectPlan(this)">
+                    <h3 class="font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase text-sm">Pase Semanal</h3>
                     <div class="text-3xl font-black text-slate-900 dark:text-white mb-4">€4.99</div>
                     <ul class="text-sm space-y-2 mb-6 flex-1 text-slate-700 dark:text-slate-300">
                         <li><i class="fas fa-check text-emerald-500 mr-2"></i> 7 Días de Acceso</li>
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Sin Anuncios</li>
                     </ul>
                 </div>
-                <div class="price-card selected bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col relative" onclick="selectPlan(this, 'Monthly')">
+                <div class="price-card selected bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col relative" onclick="selectPlan(this)">
                     <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Popular</div>
-                    <h3 class="font-bold text-purple-600 dark:text-purple-400 mb-2 uppercase text-sm" data-lang="plan_month">Premium Mensual</h3>
+                    <h3 class="font-bold text-purple-600 dark:text-purple-400 mb-2 uppercase text-sm">Premium Mensual</h3>
                     <div class="text-3xl font-black text-slate-900 dark:text-white mb-4">€9.99<span class="text-sm font-normal text-slate-500">/mes</span></div>
                     <ul class="text-sm space-y-2 mb-6 flex-1 text-slate-700 dark:text-slate-300">
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Descargas 8K</li>
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Velocidad Turbo x10</li>
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Soporte Prioritario</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Calidad 4K/8K real</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Sin anuncios</li>
                     </ul>
                 </div>
-                <div class="price-card bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col" onclick="selectPlan(this, 'Lifetime')">
-                    <h3 class="font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase text-sm" data-lang="plan_life">Vitalicio</h3>
+                <div class="price-card bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl flex flex-col" onclick="selectPlan(this)">
+                    <h3 class="font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase text-sm">Vitalicio</h3>
                     <div class="text-3xl font-black text-slate-900 dark:text-white mb-4">€49.99</div>
                     <ul class="text-sm space-y-2 mb-6 flex-1 text-slate-700 dark:text-slate-300">
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Pago Único</li>
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Todo Incluido</li>
-                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Actualizaciones</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Pago único</li>
+                        <li><i class="fas fa-check text-emerald-500 mr-2"></i> Actualizaciones 4ever</li>
                     </ul>
                 </div>
             </div>
 
-            <button onclick="processPayment()" class="w-full btn-pro py-5 text-xl flex items-center justify-center gap-3">
-                <i class="fas fa-lock"></i> <span data-lang="btn_pay">PROCEDER AL PAGO</span>
+            <button onclick="processPayment()" class="w-full btn-pro py-5 text-xl font-black block">
+                <i class="fas fa-lock"></i> <span data-lang="btn_pay">PAGAR CON STRIPE</span>
             </button>
             <p class="text-center text-xs text-slate-400 mt-4"><i class="fab fa-stripe fa-lg text-[#635BFF]"></i> Pagos seguros procesados por Stripe.</p>
         </div>
@@ -220,44 +266,39 @@
     </footer>
 
     <script>
+        // --- ESTADO GLOBAL ---
         let currentFormat = 'mp4';
         let isProUser = localStorage.getItem('snappro_is_pro') === 'true';
-        let selectedPlan = 'Monthly';
+        let isLoggedIn = localStorage.getItem('snappro_logged_in') === 'true';
 
-        // --- 1. SISTEMA DE TOASTS ---
-        function showToast(message, type = 'default') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            
-            let icon = '<i class="fas fa-info-circle text-blue-500"></i>';
-            if (type === 'success') icon = '<i class="fas fa-check-circle text-emerald-500"></i>';
-            if (type === 'pro') icon = '<i class="fas fa-crown text-purple-500"></i>';
-
-            toast.innerHTML = `${icon} <span>${message}</span>`;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.animation = 'slide-out 0.3s ease-in forwards';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+        // --- SISTEMA DE TOASTS ---
+        function showToast(msg, type='default') {
+            const c = document.getElementById('toast-container');
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            let icon = type==='success' ? 'fa-check-circle text-emerald-500' : type==='pro' ? 'fa-crown text-purple-500' : 'fa-info-circle text-blue-500';
+            t.innerHTML = `<i class="fas ${icon}"></i> <span>${msg}</span>`;
+            c.appendChild(t);
+            setTimeout(() => { t.style.animation = 'slide-out 0.3s ease-in forwards'; setTimeout(()=>t.remove(),300); }, 3000);
         }
 
-        // --- 2. MULTILENGUAJE ---
+        // --- DICCIONARIO MULTILINGÜE RESTAURADO ---
         const dict = {
             es: {
-                ssl: "SSL 256-BIT SEGURO", nav_pro: "HAZTE PRO", hero_title: "Descarga Cualquier Vídeo, <br><span class='text-blue-600'>Al Instante.</span>",
+                ssl: "SSL 256-BIT SEGURO", login: "Entrar", nav_pro: "HAZTE PRO", hero_title: "Descarga Cualquier Vídeo, <br><span class='text-blue-600'>Al Instante.</span>",
                 hero_sub: "Pega el enlace de TikTok, YouTube o Instagram. Sin marcas de agua, máxima resolución.", btn_paste: "Pegar",
                 btn_download: "DESCARGAR", t_copy: "1. Copia", step_1: "Copia el enlace del vídeo desde la app oficial.", t_paste: "2. Pega", step_2: "Pégalo en el cuadro de búsqueda de arriba.",
                 t_download: "3. Descarga", step_3: "Elige la calidad y guárdalo en tu dispositivo.", live_feed: "Descargas en Directo", badge_safe: "Seguro", btn_save: "GUARDAR ARCHIVO",
-                ad_space: "Espacio Publicitario", pro_desc: "Velocidad sin límites, resoluciones 8K y cero publicidad.", plan_week: "Pase Semanal", plan_month: "Premium Mensual", plan_life: "Vitalicio", btn_pay: "PROCEDER AL PAGO"
+                ad_space: "Espacio Publicitario", pro_desc: "Apoya al desarrollador y desbloquea el máximo potencial.", btn_pay: "PAGAR CON STRIPE",
+                coffee_title: "¿Te gusta la herramienta?", coffee_sub: "Mantener los servidores no es gratis. ¡Invítame a un café!", coffee_btn: "APOYAR PROYECTO"
             },
             en: {
-                ssl: "256-BIT SSL SECURE", nav_pro: "GO PRO", hero_title: "Download Any Video, <br><span class='text-blue-600'>Instantly.</span>",
+                ssl: "256-BIT SSL SECURE", login: "Login", nav_pro: "GO PRO", hero_title: "Download Any Video, <br><span class='text-blue-600'>Instantly.</span>",
                 hero_sub: "Paste TikTok, YouTube or IG links. No watermarks, maximum resolution.", btn_paste: "Paste",
                 btn_download: "DOWNLOAD", t_copy: "1. Copy", step_1: "Copy the video link from the official app.", t_paste: "2. Paste", step_2: "Paste it in the search box above.",
                 t_download: "3. Download", step_3: "Choose your quality and save it to your device.", live_feed: "Live Downloads", badge_safe: "Secure", btn_save: "SAVE FILE",
-                ad_space: "Ad Space", pro_desc: "Unlimited speed, 8K resolutions, and zero ads.", plan_week: "Weekly Pass", plan_month: "Monthly Premium", plan_life: "Lifetime", btn_pay: "PROCEED TO CHECKOUT"
+                ad_space: "Ad Space", pro_desc: "Support the developer and unlock maximum potential.", btn_pay: "PAY WITH STRIPE",
+                coffee_title: "Enjoying the tool?", coffee_sub: "Server costs aren't free. Buy me a coffee!", coffee_btn: "SUPPORT PROJECT"
             }
         };
 
@@ -269,7 +310,7 @@
             showToast(lang === 'es' ? "Idioma cambiado a Español" : "Language changed to English", "success");
         }
 
-        // --- 3. TEMA ---
+        // --- TEMA (DARK/LIGHT) ---
         function applyTheme(theme) {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -280,142 +321,159 @@
         function toggleTheme() { applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'); }
         if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) { applyTheme('dark'); }
 
-        // --- 4. SISTEMA PREMIUM INTEGRADO ---
-        function openProModal() { document.getElementById('pro-modal').classList.remove('hide'); }
-        function closeProModal() { document.getElementById('pro-modal').classList.add('hide'); }
+        // --- AUTH & LOGIN ---
+        function checkAuthState() {
+            if (isLoggedIn) {
+                document.getElementById('user-ui-logged-out').classList.add('hide');
+                document.getElementById('user-ui-logged-in').classList.remove('hide');
+            } else {
+                document.getElementById('user-ui-logged-in').classList.add('hide');
+                document.getElementById('user-ui-logged-out').classList.remove('hide');
+            }
+        }
         
-        function selectPlan(element, planName) {
-            document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
-            element.classList.add('selected');
-            selectedPlan = planName;
+        function openLoginModal() { document.getElementById('login-modal').classList.remove('hide'); }
+        function closeLoginModal() { document.getElementById('login-modal').classList.add('hide'); }
+        function simulateLogin() {
+            closeLoginModal();
+            isLoggedIn = true;
+            localStorage.setItem('snappro_logged_in', 'true');
+            checkAuthState();
+            showToast("Sesión iniciada correctamente", "success");
+        }
+        function logout() {
+            isLoggedIn = false;
+            isProUser = false;
+            localStorage.removeItem('snappro_logged_in');
+            localStorage.removeItem('snappro_is_pro');
+            checkAuthState();
+            updateProUI();
+            showToast("Sesión cerrada", "default");
         }
 
+        // --- PRO SYSTEM ---
+        function openProModal() { document.getElementById('pro-modal').classList.remove('hide'); }
+        function closeProModal() { document.getElementById('pro-modal').classList.add('hide'); }
+        function selectPlan(el) {
+            document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+        }
         function processPayment() {
-            // Simulador de pasarela de pago
-            const btn = document.querySelector('#pro-modal .btn-pro');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Procesando...';
-            btn.style.pointerEvents = 'none';
-
+            showToast("Conectando con Stripe...", "default");
             setTimeout(() => {
-                isProUser = true;
+                isProUser = true; 
                 localStorage.setItem('snappro_is_pro', 'true');
                 closeProModal();
+                if(!isLoggedIn) simulateLogin();
+                confetti({ particleCount: 200, spread: 100 });
+                showToast("¡Pago completado! Eres usuario PRO.", "pro");
                 updateProUI();
-                confetti({ particleCount: 300, spread: 150, colors: ['#8b5cf6', '#10b981', '#ffffff'] });
-                showToast(`¡Pago exitoso! Plan ${selectedPlan} activado.`, 'pro');
-                btn.innerHTML = originalText;
-                btn.style.pointerEvents = 'auto';
             }, 2000);
         }
 
         function updateProUI() {
-            document.querySelectorAll('.pro-locked').forEach(el => {
-                el.classList.remove('pro-locked', 'border-purple-500', 'text-purple-600', 'dark:text-purple-400', 'bg-purple-50', 'dark:bg-purple-900/20');
-                el.classList.add('border-transparent', 'bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
-                el.innerHTML = "8K EXTREME (PRO)";
-            });
-            const navBtn = document.getElementById('nav-pro-btn');
-            if(navBtn) navBtn.style.display = 'none'; // Oculta el botón de "Hazte Pro" si ya lo es
+            if(isProUser) {
+                document.querySelectorAll('.pro-locked').forEach(el => {
+                    el.classList.remove('pro-locked', 'border-purple-500', 'text-purple-600', 'dark:text-purple-400', 'bg-purple-50', 'dark:bg-purple-900/20');
+                    el.classList.add('border-transparent', 'bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                    el.innerHTML = "<i class='fas fa-crown mr-1'></i> 8K (DESBLOQUEADO)";
+                });
+            } else {
+                // Reset a estado normal si cierra sesión
+                document.querySelectorAll('.format-btn:last-child').forEach(el => {
+                    el.className = "format-btn pro-locked bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400 border-2 border-purple-500 px-5 py-2 rounded-xl text-sm font-bold transition";
+                    el.innerHTML = "<i class='fas fa-crown mr-1'></i> 4K/8K (PRO)";
+                });
+            }
         }
-        if(isProUser) updateProUI();
 
-        // --- 5. LÓGICA DE DESCARGA REAL SIMULADA ---
+        // Inicializar estado
+        checkAuthState();
+        updateProUI();
+
+        // --- DOWNLOAD LOGIC ---
         function setFormat(el, fmt) {
-            if (el.classList.contains('pro-locked')) return;
+            if(el.classList.contains('pro-locked')) return;
             document.querySelectorAll('.format-btn').forEach(btn => {
                 btn.classList.remove('active', 'border-blue-600', 'bg-blue-50', 'dark:bg-blue-900/30', 'text-blue-600', 'dark:text-blue-400');
-                if (!btn.classList.contains('pro-locked')) btn.classList.add('border-transparent', 'bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                if(!btn.classList.contains('pro-locked')) btn.classList.add('border-transparent', 'bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
             });
             el.classList.remove('border-transparent', 'bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
             el.classList.add('active', 'border-blue-600', 'bg-blue-50', 'dark:bg-blue-900/30', 'text-blue-600', 'dark:text-blue-400');
             currentFormat = fmt;
         }
 
-        function requirePro(fmt) {
-            if (!isProUser) openProModal();
-            else setFormat(event.currentTarget, fmt);
-        }
-
+        function requirePro(fmt) { if(!isProUser) openProModal(); else setFormat(event.currentTarget, fmt); }
+        
         async function smartPaste() {
-            try { 
-                const text = await navigator.clipboard.readText(); 
-                document.getElementById('videoUrl').value = text; 
-                showToast("Enlace pegado correctamente", "success");
-            } catch (e) { showToast("Permite el acceso al portapapeles", "default"); }
+            try { document.getElementById('videoUrl').value = await navigator.clipboard.readText(); } 
+            catch { showToast("Pega el enlace manualmente", "default"); }
         }
 
-        async function startProcess() {
-            const url = document.getElementById('videoUrl').value.trim();
-            if(!url) { showToast("Por favor, introduce un enlace válido.", "default"); return; }
-
+        function startProcess() {
+            if(!document.getElementById('videoUrl').value) return showToast("Añade un enlace válido primero", "default");
             document.getElementById('ui-idle').classList.add('hide');
             document.getElementById('ui-result').classList.add('hide');
             document.getElementById('ui-loading').classList.remove('hide');
-
+            
             let p = 0;
             const steps = ["Validando URL...", "Bypassing Servidores...", "Extrayendo Medio...", "Renderizando Calidad..."];
             const int = setInterval(() => {
-                p++;
+                p += 2; 
                 document.getElementById('loading-bar').style.width = p + '%';
-                if(p % 25 === 0) document.getElementById('loading-sub').innerText = steps[p/25-1];
-                if(p >= 100) clearInterval(int);
-            }, isProUser ? 10 : 35); // PRO carga super rápido
-
-            setTimeout(() => {
-                document.getElementById('ui-loading').classList.add('hide');
-                document.getElementById('ui-result').classList.remove('hide');
-                document.getElementById('res-img').src = "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop";
-                document.getElementById('res-type').innerText = currentFormat.toUpperCase();
-                showToast("Vídeo procesado con éxito. Listo para guardar.", "success");
-            }, isProUser ? 1200 : 3800);
+                if(p % 25 === 0) document.getElementById('loading-sub').innerText = steps[(p/25)-1];
+                if(p >= 100) {
+                    clearInterval(int);
+                    document.getElementById('ui-loading').classList.add('hide');
+                    document.getElementById('ui-result').classList.remove('hide');
+                    document.getElementById('res-type-label').innerText = currentFormat.toUpperCase() + (currentFormat === 'mp4' ? ' (1080p)' : ' (Audio)');
+                    showToast("Vídeo procesado y listo", "success");
+                }
+            }, isProUser ? 15 : 40);
         }
 
+        // DESCARGA REAL DE UN VÍDEO DE PRUEBA W3C
         function executeRealDownload() {
-            showToast("Preparando descarga del archivo...", "default");
-            
-            // Creamos un Blob para forzar una descarga física real en el navegador
-            const fileContent = "Este es un archivo simulado generado por SnapPro Frontend. Conecta tu Backend para extraer el MP4 real.";
-            const blob = new Blob([fileContent], { type: currentFormat === 'mp3' ? 'audio/mpeg' : 'video/mp4' });
-            const url = URL.createObjectURL(blob);
+            showToast("Iniciando descarga...", "default");
+            const dummyVideoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"; // Video MP4 real y no corrupto
             
             const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = `SnapPro_Media_HQ.${currentFormat}`;
+            a.href = dummyVideoUrl;
+            a.setAttribute('download', `SnapPro_Video.${currentFormat}`); 
+            a.target = "_blank"; 
             
             document.body.appendChild(a);
             a.click();
-            
+            document.body.removeChild(a);
+
             setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
                 confetti({ particleCount: 100, origin: { y: 0.9 } });
-                showToast("¡Descarga completada!", "success");
+                showToast("¡Archivo guardado con éxito!", "success");
             }, 1000);
         }
 
         function shareResult() {
             if (navigator.share) navigator.share({ title: 'SnapPro', url: window.location.href });
-            else showToast("Copia el enlace de tu navegador y compártelo.", "default");
+            else showToast("Copia el enlace de la barra de direcciones", "default");
         }
 
-        // --- 6. LIVE FEED ---
-        const fUsers = ["@Alex99", "@Maria_Tech", "@JuanVideo", "User404", "Gamer_ES"];
-        const fNets = ["TikTok", "YouTube", "Instagram", "X", "Twitch"];
+        // --- LIVE FEED RESTAURADO ---
+        const fUsers = ["@Marta99", "@Alex_Tech", "@JuanVideo", "User404", "Gamer_ES"];
+        const fNets = ["TikTok", "YouTube", "Instagram", "X"];
         function popFeed() {
             const feed = document.getElementById('live-feed');
+            if(!feed) return;
             const u = fUsers[Math.floor(Math.random()*fUsers.length)];
             const n = fNets[Math.floor(Math.random()*fNets.length)];
             feed.innerHTML = `
-                <div class="flex items-center gap-3 animate-fade bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent dark:border-slate-800">
+                <div class="flex items-center gap-3 animate-fade bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-transparent dark:border-slate-800 mb-2">
                     <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">${u[1]}</div>
                     <div>
                         <p class="text-xs font-bold text-slate-900 dark:text-slate-100">${u}</p>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400">Descargó de ${n}</p>
                     </div>
                 </div>
-            ` + feed.innerHTML.slice(0, 400);
+            ` + feed.innerHTML.slice(0, 500); // Mantener un límite de elementos
         }
         setInterval(popFeed, 3500);
         popFeed();
